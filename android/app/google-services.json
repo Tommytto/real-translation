@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "899785535532",
+    "firebase_url": "https://recognizer-315a8.firebaseio.com",
+    "project_id": "recognizer-315a8",
+    "storage_bucket": "recognizer-315a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899785535532:android:645513aecbf91738",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899785535532-deo6f3a5015lltvahirlbcsfkmufluss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi-IRJ2gGG9yIF-Z9gufYGWoXc5On00CI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899785535532-deo6f3a5015lltvahirlbcsfkmufluss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,73 +7,125 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
-import { RNCamera, FaceDetector } from 'react-native-camera';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-async function requestCameraPermission() {
-  try {
-    const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Cool Photo App Camera Permission',
-          message:
-              'Cool Photo App needs access to your camera ' +
-              'so you can take awesome pictures.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the camera');
-    } else {
-      console.log('Camera permission denied');
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-}
+import {Platform, StyleSheet, Text, View, PermissionsAndroid, TouchableOpacity, NativeModules, Dimensions, PixelRatio} from 'react-native';
+import {RNCamera} from 'react-native-camera';
+import RNTextDetector from "react-native-text-detector";
 
 type Props = {};
 export default class App extends Component<Props> {
-  componentDidMount() {
-    requestCameraPermission()
-  }
+    camera = null;
+    // componentDidMount() {
+    //   requestCameraPermission()
+    // }
+    state = {
+        height: 3000,
+        width: 4000,
+        visionResp: []
+    };
+    detectText = async () => {
+        try {
+            const options = {
+                quality: 0.8,
+                base64: true,
+                skipProcessing: true,
+            };
+            const data = await this.camera.takePictureAsync(options);
+            console.log(data);
+            const visionResp = await RNTextDetector.detectFromUri(data.uri);
+            console.log('visionResp', visionResp);
+            this.setState({
+                visionResp
+            })
+        } catch (e) {
+            console.warn(e);
+        }
+    };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Fuck yourr</Text>
-        <Text style={styles.instructions}>Fot damn</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-        <RNCamera/>
-      </View>
-    );
-  }
+    render() {
+        const {visionResp} = this.state;
+        const { width, height } = Dimensions.get('window');
+        console.log(PixelRatio.getPixelSizeForLayoutSize(width));
+        return (
+            <View style={styles.container}>
+                {visionResp.map(({bounding: {height, width, left, top}}, id) => {
+                    console.log(width);
+                    const style = {
+                        borderWidth: 2,
+                        borderColor: '#d6d7da',
+                        width,
+                        height,
+                        left,
+                        top,
+                        position: "absolute",
+                        zIndex: 9999
+                    };
+                    return <View key={id} style={style}/>
+                })}
+                <RNCamera
+                    ref={ref => {
+                        this.camera = ref;
+                    }}
+                    style={styles.preview}
+                    type={RNCamera.Constants.Type.back}
+                    androidCameraPermissionOptions={{
+                        title: 'Permission to use camera',
+                        message: 'We need your permission to use your camera',
+                        buttonPositive: 'Ok',
+                        buttonNegative: 'Cancel',
+                    }}
+                    androidRecordAudioPermissionOptions={{
+                        title: 'Permission to use audio recording',
+                        message: 'We need your permission to use your audio',
+                        buttonPositive: 'Ok',
+                        buttonNegative: 'Cancel',
+                    }}
+                    onGoogleVisionBarcodesDetected={({barcodes}) => {
+                        console.log(barcodes);
+                    }}
+                />
+                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+                    <TouchableOpacity onPress={this.detectText.bind(this)} style={styles.capture}>
+                        <Text style={{fontSize: 14}}> SNAP </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
+    takePicture = async function () {
+        if (this.camera) {
+            const options = {quality: 0.5, base64: true};
+            const data = await this.camera.takePictureAsync(options);
+            console.log(data.uri);
+        }
+    };
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    test: {
+        backgroundColor: 'red',
+        position: "absolute",
+        left: 10,
+        top: 40,
+        zIndex: 99999
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'black',
+    },
+    preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    capture: {
+        flex: 0,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        margin: 20,
+    },
 });
