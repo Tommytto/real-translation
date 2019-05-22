@@ -1,18 +1,12 @@
-/**
- * React Native Business Cards
- * https://github.com/zsajjad/BusinessCard
- *
- */
-
 import React, { Component } from "react";
-import { TouchableOpacity, View, ImageBackground } from "react-native";
+import { TouchableOpacity, View, ImageBackground, Text } from "react-native";
 import { RNCamera as Camera } from "react-native-camera";
 import RNTextDetector from "react-native-text-detector";
-
 import style, { screenHeight, screenWidth } from "./styles";
+import {stringify} from 'query-string';
 
 const PICTURE_OPTIONS = {
-  quality: 0.1,
+  quality: 1,
   fixOrientation: true,
   forceUpOrientation: true
 };
@@ -25,37 +19,24 @@ export default class App extends React.Component {
     visionResp: []
   };
 
-  /**
-   * reset
-   *
-   * Handles error situation at any stage of the process
-   *
-   * @param {string} [error="OTHER"]
-   * @memberof App
-   */
   reset(error = "OTHER") {
     this.setState(
-      {
-        loading: false,
-        image: null,
-        error
-      },
-      () => {
-        // setTimeout(() => this.camera.startPreview(), 500);
-      }
+        {
+          loading: false,
+          image: null,
+          error
+        },
+        () => {
+          // setTimeout(() => this.camera.startPreview(), 500);
+        }
     );
   }
 
-  /**
-   * takePicture
-   *
-   * Responsible for getting image from react native camera and
-   * starting image processing.
-   *
-   * @param {*} camera
-   * @author Zain Sajjad
-   */
   takePicture = async camera => {
+    if (this.state.image) {
+      this.setState({image: null});
+      return;
+    }
     this.setState({
       loading: true
     });
@@ -65,16 +46,15 @@ export default class App extends React.Component {
         throw "OTHER";
       }
       this.setState(
-        {
-          image: data.uri
-        },
-        () => {
-          console.log(data.uri);
-          this.processImage(data.uri, {
-            height: data.height,
-            width: data.width
-          });
-        }
+          {
+            image: data.uri
+          },
+          () => {
+            this.processImage(data.uri, {
+              height: data.height,
+              width: data.width
+            });
+          }
       );
     } catch (e) {
       console.warn(e);
@@ -82,49 +62,42 @@ export default class App extends React.Component {
     }
   };
 
-  /**
-   * processImage
-   *
-   * Responsible for getting image from react native camera and
-   * starting image processing.
-   *
-   * @param {string} uri              Path for the image to be processed
-   * @param {object} imageProperties  Other properties of image to be processed
-   * @memberof App
-   * @author Zain Sajjad
-   */
+  translate = async(text) => {
+    const apiKey = 'trnsl.1.1.20190521T151257Z.c9c0a65f9789f5d7.e6b27d05af308c18fbfb63e82134e89f82c35ab9';
+    const lang = 'en-ru';
+    const postData = {
+      text,
+      lang,
+      key: apiKey
+    };
+    const data = await fetch('https://translate.yandex.net/api/v1.5/tr.json/translate?' + stringify(postData));
+    const response = await data.json();
+    return response.text;
+  };
+
   processImage = async (uri, imageProperties) => {
     const visionResp = await RNTextDetector.detectFromUri(uri);
-    console.log(visionResp);
     if (!(visionResp && visionResp.length > 0)) {
       throw "UNMATCHED";
     }
+    const text = visionResp.map((item) => item.text);
+    const translated = await this.translate(text);
     this.setState({
-      visionResp: this.mapVisionRespToScreen(visionResp, imageProperties)
+      visionResp: this.mapVisionRespToScreen(visionResp, imageProperties, translated)
     });
   };
 
-  /**
-   * mapVisionRespToScreen
-   *
-   * Converts RNTextDetectors response in representable form for
-   * device's screen in accordance with the dimensions of image
-   * used to processing.
-   *
-   * @param {array}  visionResp       Response from RNTextDetector
-   * @param {object} imageProperties  Other properties of image to be processed
-   * @memberof App
-   */
-  mapVisionRespToScreen = (visionResp, imageProperties) => {
+  mapVisionRespToScreen = (visionResp, imageProperties, translated) => {
     const IMAGE_TO_SCREEN_Y = screenHeight / imageProperties.height;
     const IMAGE_TO_SCREEN_X = screenWidth / imageProperties.width;
 
-    return visionResp.map(item => {
+    return visionResp.map((item, i) => {
       return {
         ...item,
+        text: translated[i],
         position: {
-          width: item.bounding.width * IMAGE_TO_SCREEN_X,
-          left: item.bounding.left * IMAGE_TO_SCREEN_X,
+          width: item.bounding.width * IMAGE_TO_SCREEN_X + 20,
+          left: item.bounding.left * IMAGE_TO_SCREEN_X - 20,
           height: item.bounding.height * IMAGE_TO_SCREEN_Y,
           top: item.bounding.top * IMAGE_TO_SCREEN_Y
         }
@@ -132,54 +105,62 @@ export default class App extends React.Component {
     });
   };
 
-  componentDidMount() {
-    setInterval(() => {
-      console.log("here");
-      this.takePicture(this.camera)
-    }, 1000)
+  renderCaptureButton() {
+    return <View style={style.buttonContainer}>
+      <TouchableOpacity
+          onPress={() => this.takePicture(this.camera)}
+          style={style.button}
+      />
+    </View>;
   }
 
+  renderCamera() {
+    const {image} = this.state;
+    if (image) {
+      return  null;
+    }
+    return <Camera
+        ref={cam => {
+          this.camera = cam;
+        }}
+        key="camera"
+        style={style.camera}
+        notAuthorizedView={null}
+        playSoundOnCapture
+    >
 
-  /**
-   * React Native render function
-   *
-   * @returns ReactNode or null
-   * @memberof App
-   */
-  render() {
-    return (
-      <View style={style.screen}>
-        <Camera
-          ref={cam => {
-            this.camera = cam;
-          }}
-          key="camera"
-          style={style.camera}
-          notAuthorizedView={null}
-        >
-          {({ camera, status }) => {
-            if (status !== "READY") {
-              return null;
-            }
-            return (
-              <View style={style.buttonContainer}>
-                <TouchableOpacity
-                  onPress={() => this.takePicture(camera)}
-                  style={style.button}
-                />
-              </View>
-            );
-          }}
-        </Camera>
-          {this.state.visionResp.map(item => {
-            return (
-              <TouchableOpacity
+    </Camera>;
+  }
+
+  renderImageBackground() {
+    const {image} = this.state;
+    if (!image) {
+      return null;
+    }
+    return <ImageBackground
+        source={{ uri: image }}
+        style={style.imageBackground}
+        key="image"
+        resizeMode="cover"
+    >
+      {this.state.visionResp.map(item => {
+        return (
+            <TouchableOpacity
                 style={[style.boundingRect, item.position]}
                 key={item.text}
-              />
-            );
-          })}
-      </View>
+            ><Text>{item.text}</Text></TouchableOpacity>
+        );
+      })}
+    </ImageBackground>
+  }
+
+  render() {
+    return (
+        <View style={style.screen}>
+          {this.renderCaptureButton()}
+          {this.renderCamera()}
+          {this.renderImageBackground()}
+        </View>
     );
   }
 }

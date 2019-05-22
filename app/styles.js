@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     bottom: 36,
     alignSelf: "center",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 9999,
   },
   button: {
     width: 64,
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
+    backgroundColor: 'white',
     borderColor: "#FF6600"
   }
 });
