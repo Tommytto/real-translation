@@ -1,14 +1,21 @@
+// @flow
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
 import { stringify } from 'query-string/index';
 import compose from '../../helpers/compose';
+import {inject, observer} from "mobx-react/native";
+import {TransportContext} from "../../App";
 
 const landmarkSize = 2;
 
+@inject('translationStore')
+@observer
 class TextRecognizer extends React.Component {
-    state = {
+    static contextType = TransportContext;
+
+    config = {
         flash: 'off',
         zoom: 0,
         autoFocus: 'on',
@@ -25,25 +32,13 @@ class TextRecognizer extends React.Component {
         canDetectFaces: false,
         canDetectText: false,
         canDetectBarcode: false,
-        faces: [],
-        textBlocks: [],
-        barcodes: []
     };
+    state = {
+        textBlocks: [],
+    };
+
     fontSizeWidth = 0.3;
     fontSizeHeight = 1;
-
-    translate = async (text) => {
-        const apiKey = 'trnsl.1.1.20190521T151257Z.c9c0a65f9789f5d7.e6b27d05af308c18fbfb63e82134e89f82c35ab9';
-        const lang = 'en-ru';
-        const postData = {
-            text,
-            lang,
-            key: apiKey
-        };
-        const data = await fetch(`https://translate.yandex.net/api/v1.5/tr.json/translate?${stringify(postData)}`);
-        const response = await data.json();
-        return response.text;
-    };
 
     toggle = (value) => () => this.setState((prevState) => ({ [value]: !prevState[value] }));
 
@@ -86,8 +81,9 @@ class TextRecognizer extends React.Component {
             result.push(...item.components.map((item) => item.value));
             return result;
         }, []);
-        const translated = await this.translate(texts);
-        console.log(textBlocks);
+        const {translateApi} = this.context;
+        const translated = await translateApi.translate(texts);
+
         const textLines = textBlocks
             .reduce((result, item) => {
                 result.push(...item.components);

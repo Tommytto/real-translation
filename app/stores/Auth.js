@@ -1,6 +1,7 @@
+// @flow
 import { observable, action } from 'mobx';
 
-class AuthStore {
+export default class AuthStore {
     @observable name = '';
     @observable isLoading = false;
 
@@ -8,6 +9,3 @@ class AuthStore {
         this.name = name;
     }
 }
-
-const authStore = new AuthStore();
-export default authStore;
