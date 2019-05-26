@@ -1,22 +1,34 @@
 // @flow
-import { observable } from 'mobx';
-import uuid from 'uuid';
+import { observable, action } from 'mobx';
+import type {TWord} from "../models/WordModel";
+import WordModel from "../models/WordModel";
+import TranslationModel from "../models/TranslationModel";
 
+type TTranslationInfo = {|
+    source: TWord,
+    target: TWord
+|}
 export default class TranslationStore {
-    @observable wordList = [];
-    @observable wordData = {};
+    @observable translationList = [];
+    @observable translationData = {};
 
-    @action addTranslation(data) {
-        const translation = new Translation(data);
-        this.wordList.push(translation.id);
-        this.wordData[translation.id] = translation;
+    @action addTranslation(translationInfo: TTranslationInfo) {
+        const translation = this.createTranslation(translationInfo);
+        this.translationList.push(translation.id);
+        this.translationData[translation.id] = translation;
         return translation;
     }
 
-    @action addTranslationList(translationList) {
+    createTranslation({source, target}: TTranslationInfo) {
+        const sourceWord = new WordModel(source);
+        const targetWord = new WordModel(target);
+        return new TranslationModel({sourceWord, targetWord});
+    }
+
+    @action addTranslationList(translationList: TTranslationInfo[]) {
         const { data, list } = translationList.reduce(
-            (result, translationData) => {
-                const translation = new Translation(translationData);
+            (result, translationInfo) => {
+                const translation = this.createTranslation(translationInfo);
                 return {
                     data: {
                         ...result.data,
@@ -28,22 +40,10 @@ export default class TranslationStore {
             { data: {}, list: [] }
         );
 
-        this.wordList.push(...list);
-        this.wordData = {
-            ...this.wordData,
+        this.translationList.push(...list);
+        this.translationData = {
+            ...this.translationData,
             ...data
         };
-    }
-}
-
-class Translation {
-    id = null;
-    value = '';
-    translation = '';
-
-    constructor({ value, translation }) {
-        this.id = uuid();
-        this.value = value;
-        this.translation = translation;
     }
 }

@@ -1,25 +1,49 @@
 // @flow
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import Button from '../../components/Button';
+import COLOR from '../../style/colors';
+import Typography from '../../style/typography';
+import LoginLayout from '../../components/LoginLayout';
 
-export default function HelloScreen({ navigation }) {
+type TProps = {};
+
+export default function HelloScreen({ navigation }: TProps) {
     return (
-        <View style={style.container}>
+        <LoginLayout>
             <View style={style.contentContainer}>
-                <Text>Some text</Text>
+                <Image resizeMode={'contain'} style={style.img} source={require('./img/hello3.png')} />
+                <Text style={[Typography.text40, style.welcomeText]}>Welcome to Lingvision!</Text>
+                <Text style={[Typography.text60, style.aboutText]}>
+                    Translate everything you want in action with your camera. And instantly learn it here
+                </Text>
             </View>
             <View style={style.buttonContainer}>
                 <Button onPress={() => navigation.navigate('SignIn')}>Login</Button>
-                <Button onPress={() => navigation.navigate('SignUp')}>Sign up</Button>
+                <Button theme="primary" onPress={() => navigation.navigate('SignUp')}>
+                    Sign up
+                </Button>
             </View>
-        </View>
+        </LoginLayout>
     );
 }
 
 const style = StyleSheet.create({
-    container: {
-        height: '100%'
+    welcomeText: {
+        fontWeight: 'bold',
+        color: COLOR.WHITE,
+        marginBottom: '10%',
+        textAlign: 'center'
+    },
+    aboutText: {
+        textAlign: 'center',
+        color: COLOR.WHITE,
+        marginBottom: '30%'
+    },
+    img: {
+        flex: 1,
+        width: undefined,
+        height: undefined
     },
     buttonContainer: {},
     contentContainer: {

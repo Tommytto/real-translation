@@ -3,18 +3,16 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
-import { stringify } from 'query-string/index';
-import compose from '../../helpers/compose';
 import {inject, observer} from "mobx-react/native";
-import {TransportContext} from "../../App";
+import withContext from "../../logic/hocs/withContext";
+import TransportContext from "../../logic/contexts/TransportContext";
 
 const landmarkSize = 2;
 
+@withContext(TransportContext)
 @inject('translationStore')
 @observer
 class TextRecognizer extends React.Component {
-    static contextType = TransportContext;
-
     config = {
         flash: 'off',
         zoom: 0,
@@ -72,18 +70,30 @@ class TextRecognizer extends React.Component {
         const heightOnLetter = height;
         const fontSizeOnWidth = widthOnLetter / this.fontSizeWidth;
         const fontSizeOnHeight = height;
-        console.log(text, Math.min(fontSizeOnHeight, fontSizeOnWidth) - 6);
         return Math.min(fontSizeOnHeight, fontSizeOnWidth) - 2;
     }
     textRecognized = async (object) => {
+        const {context} = this.props;
         const { textBlocks } = object;
         const texts = textBlocks.reduce((result, item) => {
             result.push(...item.components.map((item) => item.value));
             return result;
         }, []);
-        const {translateApi} = this.context;
-        const translated = await translateApi.translate(texts);
-
+        const {translationApi} = context;
+        const translated = await translationApi.translate(texts);
+        const translationList = translated.map((translation, i) => {
+            return {
+                source: {
+                    lang: 'en',
+                    value: texts[i]
+                },
+                target: {
+                    lang: 'ru',
+                    value: translation,
+                }
+            }
+        });
+        this.props.translationStore.addTranslationList(translationList);
         const textLines = textBlocks
             .reduce((result, item) => {
                 result.push(...item.components);
@@ -221,4 +231,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default compose()(TextRecognizer);
+export default TextRecognizer;
