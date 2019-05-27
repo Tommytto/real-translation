@@ -109,6 +109,16 @@ android {
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
+    signingConfigs {
+            release {
+                if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                    storeFile file(MYAPP_RELEASE_STORE_FILE)
+                    storePassword MYAPP_RELEASE_STORE_PASSWORD
+                    keyAlias MYAPP_RELEASE_KEY_ALIAS
+                    keyPassword MYAPP_RELEASE_KEY_PASSWORD
+                }
+            }
+        }
     splits {
         abi {
             reset()
@@ -149,9 +159,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
         implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
 
-        implementation (project(':react-native-text-detector')) {
-            exclude group: 'com.google.firebase'
-        }
 }
 
 // Run this once to be able to run the application with BUCK
