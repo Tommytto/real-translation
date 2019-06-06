@@ -53,8 +53,10 @@ class TextRecognizer extends React.Component {
                     styles.text,
                     {
                         ...bounds.size,
+                        width: bounds.size.width + 80,
                         left: bounds.origin.x,
                         top: bounds.origin.y
+
                     }
                 ]}
             >
@@ -70,7 +72,7 @@ class TextRecognizer extends React.Component {
         const heightOnLetter = height;
         const fontSizeOnWidth = widthOnLetter / this.fontSizeWidth;
         const fontSizeOnHeight = height;
-        return Math.min(fontSizeOnHeight, fontSizeOnWidth) - 2;
+        return Math.min(fontSizeOnHeight, fontSizeOnWidth);
     }
     textRecognized = async (object) => {
         const {context} = this.props;

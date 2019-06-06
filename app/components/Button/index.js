@@ -7,12 +7,19 @@ import Typography from '../../style/typography';
 
 type TProps = {
     theme?: $Keys<typeof buttonThemes>,
-    children: React.Node,
-}
+    children: React.Node
+};
 
-export default function Button({ children, theme = 'default', ...props }: TProps) {
+export default function Button({ round, icon, style, children, theme = 'default', ...props }: TProps) {
+    const buttonStyle = [styles.button, buttonThemes[theme]];
+    if (icon) {
+        buttonStyle.push(styles.roundButton);
+    }
+    if (style) {
+        buttonStyle.push(style);
+    }
     return (
-        <TouchableOpacity activeOpacity={0.5} style={[styles.button, buttonThemes[theme]]} {...props}>
+        <TouchableOpacity activeOpacity={0.5} style={buttonStyle} {...props}>
             <Text style={[Typography.text70, textThemes[theme]]}>{children}</Text>
         </TouchableOpacity>
     );
@@ -23,7 +30,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: Spacing.s3,
         alignItems: 'center',
-        marginBottom: 10,
+    },
+    roundButton: {
+        height: 64,
+        width: 64,
+        borderRadius: 32
     }
 });
 

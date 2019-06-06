@@ -1,25 +1,60 @@
 // @flow
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import Button from '../../components/Button';
-import {inject, observer} from "mobx-react/native";
-import compose from "../../helpers/compose";
+import HomeLayout from '../../components/HomeLayout';
+import Text from '../../components/Text';
+import ExerciseBlockList from "../../components/ExerciseBlockList";
+import type {NavigationScreenProp} from 'react-navigation'
 
-function HomeScreen({ navigation, translationStore }) {
+type TProps = {
+    navigation: NavigationScreenProp,
+}
+
+function HomeScreen({ navigation }: TProps) {
     return (
-        <View>
-            <Text>i am a HomeScreen</Text>
-            {
-                Object.values(translationStore.translationData).map(({sourceWord}) => {
-                    return <Text>{sourceWord.value}</Text>
-                })
-            }
-            <Button onPress={() => navigation.navigate('TextRecognizer')}>camera</Button>
-        </View>
+        <HomeLayout>
+            <View style={styles.content}>
+                <Text size="60" style={styles.welcome}>
+                    Hello, User, welcome back to classroom!
+                </Text>
+                <ExerciseBlockList/>
+                <TouchableHighlight style={styles.wrapper} onPress={() => navigation.navigate('Learning')}>
+                    <Image style={styles.category} resizeMode={"contain"} source={require('./img/category.png')} />
+                </TouchableHighlight>
+            </View>
+            <View>
+                <Button
+                    style={styles.cameraBtn}
+                    icon
+                    theme="primary"
+                    onPress={() => navigation.navigate('TextRecognizer')}
+                >
+                    camera
+                </Button>
+            </View>
+        </HomeLayout>
     );
 }
 
-export default compose(
-    inject('translationStore'),
-    observer
-)(HomeScreen)
+const styles = StyleSheet.create({
+    content: {
+        flex: 1
+    },
+    wrapper: {
+        flex: 1,
+    },
+    welcome: {},
+    category: {
+        width: undefined,
+        height: undefined,
+        flex: 1,
+    },
+    cameraBtn: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0
+    }
+});
+
+export default HomeScreen

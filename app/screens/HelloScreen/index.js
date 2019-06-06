@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Image } from 'react-native';
 import Button from '../../components/Button';
 import COLOR from '../../style/colors';
 import Typography from '../../style/typography';
+import Spacing from '../../style/spacing';
 import LoginLayout from '../../components/LoginLayout';
 
 type TProps = {};
@@ -19,7 +20,7 @@ export default function HelloScreen({ navigation }: TProps) {
                 </Text>
             </View>
             <View style={style.buttonContainer}>
-                <Button onPress={() => navigation.navigate('SignIn')}>Login</Button>
+                <Button style={style.buttonPrev} onPress={() => navigation.navigate('SignIn')}>Login</Button>
                 <Button theme="primary" onPress={() => navigation.navigate('SignUp')}>
                     Sign up
                 </Button>
@@ -39,6 +40,9 @@ const style = StyleSheet.create({
         textAlign: 'center',
         color: COLOR.WHITE,
         marginBottom: '30%'
+    },
+    buttonPrev: {
+        marginBottom: Spacing.s3
     },
     img: {
         flex: 1,
