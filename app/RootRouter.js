@@ -8,7 +8,6 @@ import TextRecognizerScreen from './screens/TextRecognizerScreen';
 import Spacing from './style/spacing';
 import COLOR from './style/colors';
 import LearningScreen from './screens/LearningScreen';
-import {EXERCISE_TYPE} from "./stores/ExerciseType";
 
 const defaultNavigationOptions = {
     headerTransparent: true,
@@ -18,11 +17,6 @@ const defaultNavigationOptions = {
     headerTintColor: COLOR.WHITE
 };
 
-const LearningStack = createStackNavigator({
-    [EXERCISE_TYPE.TARGET_TO_SOURCE]: {
-        screen: () => null,
-    }
-});
 
 const AppStack = createStackNavigator(
     {
@@ -32,7 +26,7 @@ const AppStack = createStackNavigator(
                 header: null
             }
         },
-        Learning: LearningStack,
+        Learning: LearningScreen,
         TextRecognizer: TextRecognizerScreen
     },
     {

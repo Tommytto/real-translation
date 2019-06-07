@@ -8,7 +8,7 @@ type TTranslationInfo = {|
     source: TWord,
     target: TWord
 |}
-export default class TranslationStore {
+export default class TranslationListStore {
     @observable translationList = [];
     @observable translationData = {};
 
@@ -47,3 +47,5 @@ export default class TranslationStore {
         };
     }
 }
+
+export type TTranslationListStore = TranslationListStore;

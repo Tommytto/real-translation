@@ -5,12 +5,12 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import {inject, observer} from "mobx-react/native";
 import withContext from "../../logic/hocs/withContext";
-import TransportContext from "../../logic/contexts/TransportContext";
+import ServiceContext from "../../logic/contexts/ServiceContext";
 
 const landmarkSize = 2;
 
-@withContext(TransportContext)
-@inject('translationStore')
+@withContext(ServiceContext)
+@inject('translationListStore')
 @observer
 class TextRecognizer extends React.Component {
     config = {
@@ -95,7 +95,7 @@ class TextRecognizer extends React.Component {
                 }
             }
         });
-        this.props.translationStore.addTranslationList(translationList);
+        this.props.translationListStore.addTranslationList(translationList);
         const textLines = textBlocks
             .reduce((result, item) => {
                 result.push(...item.components);

@@ -5,7 +5,7 @@ export default class AuthStore {
     @observable name = '';
     @observable isLoading = false;
 
-    @action setName(name) {
+    @action setName(name: string) {
         this.name = name;
     }
 }

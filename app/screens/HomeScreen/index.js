@@ -8,6 +8,7 @@ import ExerciseBlockList from '../../components/ExerciseBlockList';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 import CategoryHeader from '../../components/CategoryHeader';
 import Spacing from '../../style/spacing';
+
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>
 };
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     randomLearning: {
-        marginBottom: Spacing.s7,
+        marginBottom: Spacing.s7
     },
     welcome: {
         marginBottom: Spacing.s2

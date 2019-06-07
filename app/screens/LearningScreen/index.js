@@ -1,27 +1,34 @@
+// @flow
 import React from 'react';
 import HomeLayout from '../../components/HomeLayout';
-import Text from '../../components/Text';
 import compose from '../../helpers/compose';
+import {View, StyleSheet} from "react-native";
 import { inject, observer } from 'mobx-react/native';
-import { View } from 'react-native';
-const LearningScreen = ({ translationStore }) => {
+import WordCard from "../../components/WordCard";
+import type {NavigationScreenProp, NavigationState} from "react-navigation";
+import TextInput from "../../components/TextInput";
+
+type TProps = {
+    navigation: NavigationScreenProp<NavigationState>
+}
+
+const LearningScreen = ({ navigation }: TProps) => {
+    console.log(navigation);
     return (
         <HomeLayout>
-            {Object.values(translationStore.translationData).map(({ sourceWord, targetWord }, i) => {
-                return (
-                    <View key={sourceWord.id}>
-                        <Text color="black" size="80">
-                            {sourceWord.value + ' - '}
-                        </Text>
-                        <Text size="80">{targetWord.value}</Text>
-                    </View>
-                );
-            })}
+            <View>
+                <WordCard string="hello"/>
+            </View>
+            <TextInput placeholder="sdsf"/>
         </HomeLayout>
     );
 };
 
+const styles = StyleSheet.create({
+    container: {}
+});
+
 export default compose(
-    inject('translationStore'),
+    inject('translationListStore'),
     observer
 )(LearningScreen);

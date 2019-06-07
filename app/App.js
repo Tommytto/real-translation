@@ -3,22 +3,28 @@ import React from 'react';
 import RootRouter from './RootRouter';
 import { Provider as StoreProvider } from 'mobx-react/native';
 import AuthStore from "./stores/Auth";
-import TranslationStore from "./stores/TranslationList";
-import TransportContext, {transportData} from "./logic/contexts/TransportContext";
+import TranslationListStore from "./stores/TranslationListStore";
 import ExerciseTypeStore from "./stores/ExerciseType";
+import TranslateApi from "./services/TranslateApi";
 
 const storeData = {
     authStore: new AuthStore(),
-    translationStore: new TranslationStore(),
+    translationListStore: new TranslationListStore(),
     exerciseTypeStore: new ExerciseTypeStore(),
 };
+
+const services = {
+    translationApi: new TranslateApi(),
+};
+
+const ServiceContext = React.createContext<typeof services>(services);
 
 export default function App() {
     return (
         <StoreProvider {...storeData}>
-            <TransportContext.Provider value={transportData}>
+            <ServiceContext.Provider value={services}>
                 <RootRouter />
-            </TransportContext.Provider>
+            </ServiceContext.Provider>
         </StoreProvider>
     );
 }

@@ -23,7 +23,7 @@ export default function HomeLayout({ children }: TProps) {
 
 const style = StyleSheet.create({
     container: {
-        flex: 1,
+        ...StyleSheet.absoluteFill,
         padding: Spacing.s10,
         paddingTop: 2 * Spacing.s10,
     }

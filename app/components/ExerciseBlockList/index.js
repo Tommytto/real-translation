@@ -16,13 +16,18 @@ type TProps = {
 
 function ExerciseBlockList({ exerciseTypeStore }: TProps) {
     const navigation = useNavigation();
+    function getPressHandler(type: string) {
+        return function() {
+            navigation.navigate('Learning', {
+                type: [type]
+            });
+        }
+    }
     const config = useRef([
         {
             key: EXERCISE_TYPE.SOURCE_TO_TARGET,
             title: 'English to Russian',
-            onPress: () => {
-                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.SOURCE_TO_TARGET].id);
-            },
+            onPress: getPressHandler(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.SOURCE_TO_TARGET].id),
             backgroundColor: COLOR.SKY_BLUE_30,
             info: '12 words available'
         },
@@ -31,9 +36,7 @@ function ExerciseBlockList({ exerciseTypeStore }: TProps) {
             title: 'Russian to English',
             info: '35 words available',
             backgroundColor: COLOR.TUSCANY_30,
-            onPress: () => {
-                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id);
-            }
+            onPress: getPressHandler(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
         },
     ]);
     return (
