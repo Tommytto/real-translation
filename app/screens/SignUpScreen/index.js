@@ -4,13 +4,18 @@ import { StyleSheet, View } from 'react-native';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import LoginLayout from '../../components/LoginLayout';
-import Text from "../../components/Text";
+import Text from '../../components/Text';
+import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 
-export default function SignUpScreen({ navigation }) {
+type TProps = {
+    navigation: NavigationScreenProp<NavigationState>
+};
+
+export default function SignUpScreen({ navigation }: TProps) {
     return (
         <LoginLayout>
             <View style={style.content}>
-                <Text size="40" bold>
+                <Text size="40" weight="bold">
                     Sign up
                 </Text>
                 <TextInput textContentType="emailAddress" label="Email" autoFocus placeholder="Type Email" />

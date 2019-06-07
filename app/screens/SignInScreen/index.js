@@ -5,12 +5,17 @@ import LoginLayout from '../../components/LoginLayout';
 import Text from '../../components/Text';
 import { View, StyleSheet } from 'react-native';
 import TextInput from "../../components/TextInput";
+import type {NavigationScreenProp, NavigationState} from "react-navigation";
 
-function SignInScreen({ navigation }) {
+type TProps = {
+    navigation: NavigationScreenProp<NavigationState>
+};
+
+function SignInScreen({ navigation }: TProps) {
     return (
         <LoginLayout>
             <View style={style.content}>
-                <Text size="40" bold>
+                <Text size="40" weight="bold">
                     Sign in
                 </Text>
                 <TextInput textContentType="emailAddress" label="Email" autoFocus placeholder="Type Email"/>

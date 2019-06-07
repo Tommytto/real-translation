@@ -1,27 +1,27 @@
 // @flow
 import React from 'react';
-import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../../components/Button';
 import HomeLayout from '../../components/HomeLayout';
 import Text from '../../components/Text';
-import ExerciseBlockList from "../../components/ExerciseBlockList";
-import type {NavigationScreenProp} from 'react-navigation'
-
+import ExerciseBlockList from '../../components/ExerciseBlockList';
+import type { NavigationScreenProp, NavigationState } from 'react-navigation';
+import CategoryHeader from '../../components/CategoryHeader';
+import Spacing from '../../style/spacing';
 type TProps = {
-    navigation: NavigationScreenProp,
-}
+    navigation: NavigationScreenProp<NavigationState>
+};
 
 function HomeScreen({ navigation }: TProps) {
     return (
         <HomeLayout>
             <View style={styles.content}>
-                <Text size="60" style={styles.welcome}>
+                <Text size="50" style={styles.welcome}>
                     Hello, User, welcome back to classroom!
                 </Text>
-                <ExerciseBlockList/>
-                <TouchableHighlight style={styles.wrapper} onPress={() => navigation.navigate('Learning')}>
-                    <Image style={styles.category} resizeMode={"contain"} source={require('./img/category.png')} />
-                </TouchableHighlight>
+                <Button style={styles.randomLearning}>Start random learning!</Button>
+                <CategoryHeader>Exercises</CategoryHeader>
+                <ExerciseBlockList />
             </View>
             <View>
                 <Button
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
         flex: 1
     },
     wrapper: {
-        flex: 1,
+        flex: 1
     },
-    welcome: {},
-    category: {
-        width: undefined,
-        height: undefined,
-        flex: 1,
+    randomLearning: {
+        marginBottom: Spacing.s7,
+    },
+    welcome: {
+        marginBottom: Spacing.s2
     },
     cameraBtn: {
         position: 'absolute',
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HomeScreen
+export default HomeScreen;

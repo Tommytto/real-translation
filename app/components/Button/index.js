@@ -4,10 +4,13 @@ import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import COLOR from '../../style/colors';
 import Spacing from '../../style/spacing';
 import Typography from '../../style/typography';
+import type {ViewStyle} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type TProps = {
     theme?: $Keys<typeof buttonThemes>,
-    children: React.Node
+    children: React.Node,
+    icon?: boolean,
+    style?: ViewStyle,
 };
 
 export default function Button({ round, icon, style, children, theme = 'default', ...props }: TProps) {

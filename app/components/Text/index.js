@@ -8,16 +8,15 @@ type TProps = {
     children: React.Node,
     color?: $Keys<typeof textColorStyle>,
     size?: $Keys<typeof textSizeStyle>,
-    bold?: boolean,
+    weight?: $Keys<typeof textWeightStyles>,
     style?: Object
 };
 
-export default function Text({ children, style, bold, size = '40', color = 'white' }: TProps) {
+export default function Text({ children, style, weight, size = '40', color = 'white' }: TProps) {
     const textStyle = [styles.text, textSizeStyle[size], textColorStyle[color]];
-    if (bold) {
-        textStyle.push(styles.boldText);
+    if (weight) {
+        textStyle.push(textWeightStyles[weight]);
     }
-
     if (style) {
         textStyle.push(style);
     }
@@ -25,9 +24,15 @@ export default function Text({ children, style, bold, size = '40', color = 'whit
 }
 
 const styles = StyleSheet.create({
-    text: {},
-    boldText: {
+    text: {}
+});
+
+const textWeightStyles = StyleSheet.create({
+    bold: {
         fontWeight: 'bold'
+    },
+    'semi-bold': {
+        fontWeight: '600'
     }
 });
 

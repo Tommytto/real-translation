@@ -7,6 +7,8 @@ import { EXERCISE_TYPE } from '../../stores/ExerciseType';
 import useNavigation from '../../logic/hooks/use-navigation';
 import type { TExerciseTypeStore } from '../../stores/ExerciseType';
 import ExerciseBlock from '../ExerciseBlock';
+import Spacing from '../../style/spacing';
+import COLOR from "../../style/colors";
 
 type TProps = {
     exerciseTypeStore: TExerciseTypeStore
@@ -17,26 +19,28 @@ function ExerciseBlockList({ exerciseTypeStore }: TProps) {
     const config = useRef([
         {
             key: EXERCISE_TYPE.SOURCE_TO_TARGET,
-            title: 'Переводи слова с русского на английский',
+            title: 'English to Russian',
             onPress: () => {
-                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.SOURCE_TO_TARGET].id)
+                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.SOURCE_TO_TARGET].id);
             },
-            theme: 'blue'
+            backgroundColor: COLOR.SKY_BLUE_30,
+            info: '12 words available'
         },
         {
             key: EXERCISE_TYPE.TARGET_TO_SOURCE,
-            title: 'Переводи слова с английского на русский',
-            theme: 'aquamarine',
+            title: 'Russian to English',
+            info: '35 words available',
+            backgroundColor: COLOR.TUSCANY_30,
             onPress: () => {
-                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
+                navigation.navigate(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id);
             }
-        }
+        },
     ]);
     return (
         <View style={styles.container}>
-            {config.current.map(({key, ...rest}, i) => {
+            {config.current.map(({ key, ...rest }, i) => {
                 return (
-                    <View key={key}>
+                    <View style={styles.exerciseBlock} key={key}>
                         <ExerciseBlock {...rest} />
                     </View>
                 );
@@ -46,7 +50,10 @@ function ExerciseBlockList({ exerciseTypeStore }: TProps) {
 }
 
 const styles = StyleSheet.create({
-    container: {}
+    container: {},
+    exerciseBlock: {
+        marginBottom: Spacing.s3
+    }
 });
 
 export default compose(inject('exerciseTypeStore'))(ExerciseBlockList);
