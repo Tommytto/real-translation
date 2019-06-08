@@ -1,8 +1,8 @@
 import React from 'react';
 import LinearGradient from "react-native-linear-gradient";
-import COLOR from "../../../style/colors";
 import {StyleSheet} from "react-native";
-import Spacing from "../../../style/spacing";
+import COLOR from "style/colors";
+import Spacing from "style/spacing";
 
 type TProps = {
     children: React.Node

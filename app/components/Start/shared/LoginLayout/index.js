@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import Spacing from '../../../../style/spacing';
-import COLOR from '../../../../style/colors';
+import Spacing from 'style/spacing';
+import COLOR from 'style/colors';
 import LinearGradient from 'react-native-linear-gradient';
 
 type TProps = {

@@ -56,6 +56,12 @@ module.file_ext=.jsx
 module.file_ext=.json
 module.file_ext=.native.js
 
+module.name_mapper='^style' ->'<PROJECT_ROOT>/app/style'
+module.name_mapper='^logic' ->'<PROJECT_ROOT>/app/logic'
+module.name_mapper='^constants' ->'<PROJECT_ROOT>/app/constants'
+module.name_mapper='^helpers' ->'<PROJECT_ROOT>/app/helpers'
+module.name_mapper='^services' ->'<PROJECT_ROOT>/app/services'
+
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FlowFixMeProps

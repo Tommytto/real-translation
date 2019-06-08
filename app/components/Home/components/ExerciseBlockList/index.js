@@ -1,14 +1,14 @@
 // @flow
 import React, { useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
-import compose from '../../../../helpers/compose';
+import compose from 'helpers/compose';
 import { inject } from 'mobx-react/native';
-import useNavigation from '../../../../logic/hooks/use-navigation';
-import type { TExerciseTypeStore } from '../../../../services/ExerciseTypeStore';
-import ExerciseBlock from '../../shared/ExerciseBlock';
-import Spacing from '../../../../style/spacing';
-import COLOR from "../../../../style/colors";
-import {EXERCISE_TYPE} from "../../../../constants/ExerciseType";
+import useNavigation from 'logic/hooks/use-navigation';
+import type { TExerciseTypeStore } from 'services/ExerciseTypeStore';
+import COLOR from 'style/colors';
+import Spacing from 'style/spacing';
+import { EXERCISE_TYPE } from 'constants/ExerciseType';
+import ExerciseBlock from "components/Home/shared/ExerciseBlock";
 
 type TProps = {
     exerciseTypeStore: TExerciseTypeStore
@@ -21,7 +21,7 @@ function ExerciseBlockList({ exerciseTypeStore }: TProps) {
             navigation.navigate('Learning', {
                 type: [type]
             });
-        }
+        };
     }
     const config = useRef([
         {
@@ -37,7 +37,7 @@ function ExerciseBlockList({ exerciseTypeStore }: TProps) {
             info: '35 words available',
             backgroundColor: COLOR.TUSCANY_30,
             onPress: getPressHandler(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
-        },
+        }
     ]);
     return (
         <View style={styles.container}>

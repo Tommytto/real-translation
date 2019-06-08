@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import WordCard from '../../shared/WordCard';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 import TextInput from '../../../shared/TextInput';
-import useService from '../../../../logic/hooks/use-service';
+import useService from 'logic/hooks/use-service';
 
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>

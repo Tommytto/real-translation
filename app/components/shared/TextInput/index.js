@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
-import Spacing from '../../../style/spacing';
+import Spacing from 'style/spacing';
 import Label from '../Label';
-import COLOR from '../../../style/colors';
+import COLOR from 'style/colors';
 
 type TProps = {
     label?: React.Node

@@ -1,6 +1,7 @@
 // @flow
-import ExerciseTypeModel from '../models/ExerciseTypeModel';
-import {EXERCISE_TYPE} from "../constants/ExerciseType";
+
+import {EXERCISE_TYPE} from "constants/ExerciseType";
+import ExerciseTypeModel from "models/ExerciseTypeModel";
 
 export default class ExerciseTypeStore {
     exerciseTypeList = {

@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Text as RNText, StyleSheet } from 'react-native';
-import COLOR from '../../../style/colors';
-import Typography from '../../../style/typography';
+import COLOR from 'style/colors';
+import Typography from 'style/typography';
 
 type TProps = {
     children: React.Node,

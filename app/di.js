@@ -6,6 +6,7 @@ import ExerciseTypeStore from './services/ExerciseTypeStore';
 import TranslateApi from './services/TranslateApi';
 import { Provider } from 'mobx-react/native';
 import TranslationRandomizer from './services/TranslationRandomizer';
+import TransportApi from 'services/TransportApi';
 
 const storeData = {
     authStore: new AuthStore(),
@@ -48,7 +49,7 @@ storeData.translationListStore.addTranslationList([
 ]);
 
 const services = {
-    translationApi: new TranslateApi(),
+    translationApi: new TranslateApi({ transport: new TransportApi() }),
     translationRandomizer: new TranslationRandomizer({ translationListStore: storeData.translationListStore })
 };
 

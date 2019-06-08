@@ -30,6 +30,7 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -38,10 +39,16 @@
     "eslint-plugin-react": "^7.13.0",
     "flow-bin": "^0.98.1",
     "flow-typed": "^2.5.2",
+    "husky": "^2.4.0",
     "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.54.1",
     "prettier": "1.17.1",
     "react-test-renderer": "16.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "rnpm": {
     "assets": [

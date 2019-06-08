@@ -3,8 +3,8 @@ import * as React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import Text from '../../../shared/Text';
-import COLOR from '../../../../style/colors';
-import Spacing from '../../../../style/spacing';
+import COLOR from 'style/colors';
+import Spacing from 'style/spacing';
 
 type TProps = {
     title: string,

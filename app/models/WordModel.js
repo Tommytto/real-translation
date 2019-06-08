@@ -1,5 +1,5 @@
 // @flow
-import type {TLanguages} from "../constants/Languages";
+import type {TLanguages} from "constants/Languages";
 import uuid from "uuid";
 
 export default class WordModel {

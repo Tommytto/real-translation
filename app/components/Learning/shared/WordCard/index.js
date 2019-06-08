@@ -2,7 +2,7 @@
 import React from "react";
 import {View, StyleSheet} from "react-native";
 import Text from "../../../shared/Text";
-import COLOR from "../../../../style/colors";
+import COLOR from "style/colors";
 
 type TProps = {
     string: string,

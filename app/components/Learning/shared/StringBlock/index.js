@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from '../../../shared/Text';
-import COLOR from '../../../../style/colors';
-import Spacing from '../../../../style/spacing';
+import COLOR from 'style/colors';
+import Spacing from 'style/spacing';
 
 type TProps = {
     string: string
