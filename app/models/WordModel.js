@@ -2,7 +2,6 @@
 import type {TLanguages} from "../constants/Languages";
 import uuid from "uuid";
 
-
 export default class WordModel {
     id: string;
     value: string;
@@ -15,6 +14,11 @@ export default class WordModel {
     }
 }
 
-type TWord = WordModel;
+type TWord = {
+    value: string,
+    lang: TLanguages
+};
 
-export type {TWord}
+type TWordModel = Class<WordModel>;
+
+export type {TWord, TWordModel}

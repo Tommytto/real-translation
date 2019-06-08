@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import TextInput from '../../components/TextInput';
-import Button from '../../components/Button';
+import TextInput from '../../components/shared/TextInput';
+import Button from '../../components/shared/Button';
 import LoginLayout from '../../components/LoginLayout';
-import Text from '../../components/Text';
+import Text from '../../components/shared/Text';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 
 type TProps = {

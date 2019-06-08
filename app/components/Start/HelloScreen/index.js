@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
-import Button from '../../components/Button';
+import Button from '../../components/shared/Button';
 import COLOR from '../../style/colors';
 import Typography from '../../style/typography';
 import Spacing from '../../style/spacing';

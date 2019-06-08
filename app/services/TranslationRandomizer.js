@@ -1,5 +1,5 @@
 // @flow
-import type {TTranslationListStore} from "../stores/TranslationListStore";
+import type {TTranslationListStore} from "./TranslationListStore";
 
 export default class TranslationRandomizer {
     translationListStore: TTranslationListStore;
@@ -8,9 +8,11 @@ export default class TranslationRandomizer {
         this.translationListStore = translationListStore;
     }
 
-    getRandomTranslation() {
-        const translationCount = this.translationListStore.translationList.length;
-        const randomId = Math.floor(Math.random() * translationCount);
-        return this.translationListStore.translationData[randomId]
+    getRandomTranslation = () => {
+        const {translationList, translationData} = this.translationListStore;
+        const translationCount = translationList.length;
+        const randomIndex = Math.floor(Math.random() * translationCount);
+
+        return translationData[translationList[randomIndex]]
     }
 }

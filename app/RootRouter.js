@@ -1,13 +1,14 @@
 // @flow
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
-import SignInScreen from './screens/SignInScreen';
-import HelloScreen from './screens/HelloScreen';
-import SignUpScreen from './screens/SignUpScreen';
+import SignInScreen from './components/Start/SignInScreen';
+import HelloScreen from './components/Start/HelloScreen';
+import SignUpScreen from './components/Start/SignUpScreen';
 import TextRecognizerScreen from './screens/TextRecognizerScreen';
 import Spacing from './style/spacing';
 import COLOR from './style/colors';
 import LearningScreen from './screens/LearningScreen';
+import type {NavigationState} from 'react-navigation';
 
 const defaultNavigationOptions = {
     headerTransparent: true,
@@ -50,14 +51,14 @@ const HelloStack = createStackNavigator(
     }
 );
 
-export default createAppContainer(
-    createSwitchNavigator(
-        {
-            Hello: HelloStack,
-            App: AppStack
-        },
-        {
-            initialRouteName: 'Hello'
-        }
-    )
+const RootSwitch = createSwitchNavigator(
+    {
+        Hello: HelloStack,
+        App: AppStack
+    },
+    {
+        initialRouteName: 'Hello'
+    }
 );
+
+export default createAppContainer<NavigationState,{}>(RootSwitch);

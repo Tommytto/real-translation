@@ -1,10 +1,9 @@
-import type {TLanguages} from "../constants/Languages";
-import type {TWord} from "./WordModel";
 import uuid from "uuid";
+import type {TWordModel} from "./WordModel";
 
 export default class TranslationModel {
-    sourceWord: TWord;
-    targetWord: TWord;
+    sourceWord: TWordModel;
+    targetWord: TWordModel;
     id: string;
     constructor({sourceWord, targetWord}) {
         this.id = uuid();
