@@ -18,7 +18,7 @@ export default class TranslateApi {
             key: apiKey
         };
         const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?${stringify(postData)}`;
-        const response = await this.transport.request<{text: string[]}>(url);
+        const response = await this.transport.request<{ text: string[] }>(url);
         return response && Array.isArray(response.text) ? response.text : [];
     };
 }

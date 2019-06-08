@@ -1,61 +1,71 @@
 {
-  "name": "test",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "@google-cloud/translate": "^4.0.1",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "mobx": "^5.9.4",
-    "mobx-react": "^5.4.4",
-    "native-base": "^2.12.1",
-    "query-string": "^6.5.0",
-    "react": "16.8.3",
-    "react-native": "0.59.8",
-    "react-native-camera": "^2.9.0",
-    "react-native-gesture-handler": "^1.2.1",
-    "react-native-linear-gradient": "^2.5.4",
-    "react-navigation": "^3.11.0",
-    "uuid": "^3.3.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/runtime": "^7.4.4",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.8.0",
-    "babel-plugin-module-resolver": "^3.2.0",
-    "babel-preset-flow": "^6.23.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
-    "flow-bin": "^0.98.1",
-    "flow-typed": "^2.5.2",
-    "husky": "^2.4.0",
-    "jest": "^24.8.0",
-    "metro-react-native-babel-preset": "^0.54.1",
-    "prettier": "1.17.1",
-    "react-test-renderer": "16.8.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
+    "name": "test",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@google-cloud/translate": "^4.0.1",
+        "eslint-config-prettier": "^4.3.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "mobx": "^5.9.4",
+        "mobx-react": "^5.4.4",
+        "native-base": "^2.12.1",
+        "query-string": "^6.5.0",
+        "react": "16.8.3",
+        "react-native": "0.59.8",
+        "react-native-camera": "^2.9.0",
+        "react-native-gesture-handler": "^1.2.1",
+        "react-native-linear-gradient": "^2.5.4",
+        "react-navigation": "^3.11.0",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.4",
+        "@babel/plugin-proposal-decorators": "^7.4.4",
+        "@babel/preset-flow": "^7.0.0",
+        "@babel/runtime": "^7.4.4",
+        "babel-cli": "^6.26.0",
+        "babel-eslint": "^10.0.1",
+        "babel-jest": "^24.8.0",
+        "babel-plugin-module-resolver": "^3.2.0",
+        "babel-preset-flow": "^6.23.0",
+        "eslint": "^5.16.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-import-resolver-babel-module": "^5.1.0",
+        "eslint-plugin-import": "^2.17.3",
+        "eslint-plugin-jsx-a11y": "^6.2.1",
+        "eslint-plugin-react": "^7.13.0",
+        "flow-bin": "^0.98.1",
+        "flow-coverage-report": "^0.6.1",
+        "flow-typed": "^2.5.2",
+        "husky": "^2.4.0",
+        "jest": "^24.8.0",
+        "lint-staged": "^8.2.0",
+        "metro-react-native-babel-preset": "^0.54.1",
+        "prettier": "1.17.1",
+        "react-test-renderer": "16.8.3"
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix",
+            "git add"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "npm test"
+        }
+    },
+    "rnpm": {
+        "assets": [
+            "./assets/fonts/"
+        ]
+    },
+    "jest": {
+        "preset": "react-native"
     }
-  },
-  "rnpm": {
-    "assets": [
-      "./assets/fonts/"
-    ]
-  },
-  "jest": {
-    "preset": "react-native"
-  }
 }
