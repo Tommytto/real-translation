@@ -1,27 +1,41 @@
 // @flow
 import * as React from 'react';
-import AuthStore from './services/Auth';
-import TranslationStore from './services/TranslationListStore';
-import ExerciseTypeStore from './services/ExerciseTypeStore';
-import TranslateApi from './services/TranslateApi';
+import AuthService from 'services/AuthService';
+import TranslationService from 'services/TranslationService';
+import ExerciseTypeService from 'services/ExerciseTypeService';
+import TranslateApi from 'services/rest/TranslateApi';
 import { Provider } from 'mobx-react/native';
-import TranslationRandomizer from './services/TranslationRandomizer';
-import TransportApi from 'services/TransportApi';
+import TranslationRandomizerService from 'services/TranslationRandomizerService';
+import TransportApi from 'services/rest/TransportApi';
+import AuthApi from 'services/rest/AuthApi';
+import TargetToSourceCheckingService from 'services/TargetToSourceCheckingService';
+import SourceToTargetCheckingService from 'services/SourceToTargetCheckingService';
+import LearningRatingService from 'services/LearningRatingService';
 
 const storeData = {
-    authStore: new AuthStore(),
-    translationListStore: new TranslationStore(),
-    exerciseTypeStore: new ExerciseTypeStore()
+    translationService: new TranslationService()
 };
 
-//TODO Remove
-storeData.translationListStore.addTranslationList([
+const services = {
+    exerciseTypeService: new ExerciseTypeService(),
+    authService: new AuthService({ authApi: new AuthApi({ transport: new TransportApi() }) }),
+    translationApi: new TranslateApi({ transport: new TransportApi() }),
+    targetToSourceCheckingService: new TargetToSourceCheckingService(),
+    learningRatingService: new LearningRatingService(),
+    sourceToTargetCheckingService: new SourceToTargetCheckingService(),
+    translationRandomizerService: new TranslationRandomizerService({ translationService: storeData.translationService })
+};
+
+// TODO Remove
+storeData.translationService.addTranslationList([
     {
         source: {
             value: 'hello',
+            rating: 0,
             lang: 'en'
         },
         target: {
+            rating: 0,
             value: 'привет',
             lang: 'ru'
         }
@@ -29,34 +43,33 @@ storeData.translationListStore.addTranslationList([
     {
         source: {
             value: 'world',
+            rating: 0,
             lang: 'en'
         },
         target: {
+            rating: 0,
             value: 'мир',
             lang: 'ru'
         }
     },
     {
         source: {
+            rating: 0,
             value: 'good',
             lang: 'en'
         },
         target: {
             value: 'хорошо',
+            rating: 0,
             lang: 'ru'
         }
     }
 ]);
 
-const services = {
-    translationApi: new TranslateApi({ transport: new TransportApi() }),
-    translationRandomizer: new TranslationRandomizer({ translationListStore: storeData.translationListStore })
-};
-
 export type TServiceName = $Keys<typeof services>;
-export type TService = $ObjMap<typeof services, <V>(serviceItem: V) => V>;
+export type TServiceConfig = $ObjMap<typeof services, <V>(serviceItem: V) => V>;
 
-export const ServiceContext = React.createContext<TService>(services);
+export const ServiceContext = React.createContext<TServiceConfig>(services);
 
 export function ServiceProvider({ children }: { children: React.Node }) {
     return <ServiceContext.Provider value={services}>{children}</ServiceContext.Provider>;

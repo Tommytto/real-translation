@@ -1,14 +1,8 @@
 // @flow
 import { stringify } from 'query-string';
-import type { ITransport } from 'services/TransportApi';
+import BaseApi from 'services/rest/BaseApi';
 
-export default class TranslateApi {
-    transport: ITransport;
-
-    constructor({ transport }: { transport: ITransport }) {
-        this.transport = transport;
-    }
-
+export default class TranslateApi extends BaseApi {
     translate = async (text: string[]): Promise<string[]> => {
         const apiKey = 'trnsl.1.1.20190521T151257Z.c9c0a65f9789f5d7.e6b27d05af308c18fbfb63e82134e89f82c35ab9';
         const lang = 'en-ru';

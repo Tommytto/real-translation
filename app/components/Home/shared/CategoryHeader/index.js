@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import Text from "../../../shared/Text";
-import Spacing from '../../../../style/spacing';
+import Spacing from 'style/Spacing';
 import {StyleSheet} from "react-native";
 
 type TProps = {

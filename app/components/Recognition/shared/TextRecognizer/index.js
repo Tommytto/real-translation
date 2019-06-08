@@ -6,7 +6,7 @@ import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react/native';
 import injectService from '../../../../logic/hocs/injectService';
 import compose from '../../../../helpers/compose';
-import type {TService} from "../../../../di";
+import type {TServiceConfig} from "../../../../di";
 
 type TProps = {
 };
@@ -244,6 +244,6 @@ const styles = StyleSheet.create({
 
 export default compose(
     injectService('translationApi'),
-    inject('translationListStore'),
+    inject('translationService'),
     observer
 )(TextRecognizer);

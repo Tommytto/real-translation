@@ -1,4 +1,4 @@
-const COLOR = {
+const Color = {
     WHITE: '#ffffff',
     BLACK: '#333333',
     BLUE_10: '#1852E7',
@@ -28,4 +28,4 @@ const COLOR = {
     CYAN_50: '#E1FAF9',
 };
 
-export default COLOR;
+export default Color;

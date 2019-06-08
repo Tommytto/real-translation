@@ -1,4 +1,4 @@
-import TranslateApi from 'services/TranslateApi';
+import TranslateApi from 'services/rest/TranslateApi';
 
 function getTransportMock(data) {
     return {

@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from '../../../shared/Text';
-import COLOR from 'style/colors';
-import Spacing from 'style/spacing';
+import Color from 'style/Color';
+import Spacing from 'style/Spacing';
 
 type TProps = {
     string: string
@@ -20,7 +20,7 @@ export default function StringBlock({ string }: TProps) {
 const styles = StyleSheet.create({
     block: {
         borderRadius: 6,
-        backgroundColor: COLOR.TUSCANY_50,
+        backgroundColor: Color.TUSCANY_50,
         padding: Spacing.s2,
         alignSelf: 'flex-start'
     },

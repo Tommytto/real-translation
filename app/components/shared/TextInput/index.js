@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
-import Spacing from 'style/spacing';
+import Spacing from 'style/Spacing';
 import Label from '../Label';
-import COLOR from 'style/colors';
+import Color from 'style/Color';
 
 type TProps = {
     label?: React.Node
@@ -30,7 +30,7 @@ const style = StyleSheet.create({
         paddingTop: Spacing.s2,
         paddingBottom: Spacing.s2,
         borderBottomWidth: 2,
-        borderBottomColor: COLOR.WHITE,
+        borderBottomColor: Color.WHITE,
         marginBottom: 10,
     }
 });

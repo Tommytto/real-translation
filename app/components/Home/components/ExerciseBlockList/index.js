@@ -1,53 +1,49 @@
 // @flow
-import React, { useRef } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import compose from 'helpers/compose';
-import { inject } from 'mobx-react/native';
 import useNavigation from 'logic/hooks/use-navigation';
-import type { TExerciseTypeStore } from 'services/ExerciseTypeStore';
-import COLOR from 'style/colors';
-import Spacing from 'style/spacing';
+import Color from 'style/Color';
+import Spacing from 'style/Spacing';
 import { EXERCISE_TYPE } from 'constants/ExerciseType';
-import ExerciseBlock from "components/Home/shared/ExerciseBlock";
+import ExerciseBlock from 'components/Home/shared/ExerciseBlock';
+import useService from 'logic/hooks/use-service';
 
-type TProps = {
-    exerciseTypeStore: TExerciseTypeStore
-};
-
-function ExerciseBlockList({ exerciseTypeStore }: TProps) {
+function ExerciseBlockList() {
     const navigation = useNavigation();
+    const exerciseTypeService = useService('exerciseTypeService');
+    const exerciseTypeData = exerciseTypeService.getExerciseTypeData();
+
     function getPressHandler(type: string) {
-        return function() {
+        return () => {
             navigation.navigate('Learning', {
                 type: [type]
             });
         };
     }
-    const config = useRef([
+
+    const config = [
         {
             key: EXERCISE_TYPE.SOURCE_TO_TARGET,
             title: 'English to Russian',
-            onPress: getPressHandler(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.SOURCE_TO_TARGET].id),
-            backgroundColor: COLOR.SKY_BLUE_30,
+            onPress: getPressHandler(exerciseTypeData[EXERCISE_TYPE.SOURCE_TO_TARGET].id),
+            backgroundColor: Color.SKY_BLUE_30,
             info: '12 words available'
         },
         {
             key: EXERCISE_TYPE.TARGET_TO_SOURCE,
             title: 'Russian to English',
             info: '35 words available',
-            backgroundColor: COLOR.TUSCANY_30,
-            onPress: getPressHandler(exerciseTypeStore.exerciseTypeList[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
+            backgroundColor: Color.TUSCANY_30,
+            onPress: getPressHandler(exerciseTypeData[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
         }
-    ]);
+    ];
     return (
         <View style={styles.container}>
-            {config.current.map(({ key, ...rest }, i) => {
-                return (
-                    <View style={styles.exerciseBlock} key={key}>
-                        <ExerciseBlock {...rest} />
-                    </View>
-                );
-            })}
+            {config.map(({ key, ...rest }) => (
+                <View style={styles.exerciseBlock} key={key}>
+                    <ExerciseBlock {...rest} />
+                </View>
+            ))}
         </View>
     );
 }
@@ -59,4 +55,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default compose(inject('exerciseTypeStore'))(ExerciseBlockList);
+export default ExerciseBlockList;

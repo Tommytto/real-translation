@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import COLOR from '../../../style/colors';
-import Spacing from '../../../style/spacing';
-import Typography from '../../../style/typography';
+import Color from 'style/Color';
+import Spacing from 'style/Spacing';
+import Typography from 'style/Typography';
 import type {ViewStyle} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type TProps = {
@@ -43,18 +43,18 @@ const styles = StyleSheet.create({
 
 const buttonThemes = StyleSheet.create({
     default: {
-        backgroundColor: COLOR.WHITE
+        backgroundColor: Color.WHITE
     },
     primary: {
-        backgroundColor: COLOR.BLUE_10
+        backgroundColor: Color.BLUE_10
     }
 });
 
 const textThemes = StyleSheet.create({
     default: {
-        color: COLOR.BLUE_10
+        color: Color.BLUE_10
     },
     primary: {
-        color: COLOR.WHITE
+        color: Color.WHITE
     }
 });

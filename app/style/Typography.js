@@ -1,5 +1,5 @@
 import PlatformHelpers from 'helpers/platform';
-class Typography {
+export default class Typography {
     text10 = {
         fontSize: 64,
         fontWeight: '100',
@@ -61,4 +61,3 @@ class Typography {
         fontFamily: 'Rubik-Regular'
     };
 }
-export default Typography;

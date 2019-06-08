@@ -10,7 +10,10 @@ module.exports = {
                     helpers: './app/helpers',
                     style: './app/style',
                     constants: './app/constants',
-                    logic: './app/logic'
+                    models: './app/models',
+                    components: './app/components',
+                    logic: './app/logic',
+                    routes: './app/routes'
                 }
             }
         ]

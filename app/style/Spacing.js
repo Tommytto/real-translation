@@ -1,6 +1,6 @@
 // @flow
 import PlatformHelpers from 'helpers/platform';
-class Spacing {
+export default class Spacing {
     static s1: number = PlatformHelpers.isIOS ? 3 : 4;
     static s2: number = PlatformHelpers.isIOS ? 6 : 8;
     static s3: number = PlatformHelpers.isIOS ? 9 : 12;
@@ -12,5 +12,3 @@ class Spacing {
     static s9: number = PlatformHelpers.isIOS ? 27 : 36;
     static s10: number = PlatformHelpers.isIOS ? 30 : 40;
 }
-
-export default Spacing;

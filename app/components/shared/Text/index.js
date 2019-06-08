@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Text as RNText, StyleSheet } from 'react-native';
-import COLOR from 'style/colors';
-import Typography from 'style/typography';
+import Color from 'style/Color';
+import Typography from 'style/Typography';
 
 type TProps = {
     children: React.Node,
@@ -51,9 +51,9 @@ const textSizeStyle = StyleSheet.create({
 
 const textColorStyle = StyleSheet.create({
     black: {
-        color: COLOR.BLACK
+        color: Color.BLACK
     },
     white: {
-        color: COLOR.WHITE
+        color: Color.WHITE
     }
 });

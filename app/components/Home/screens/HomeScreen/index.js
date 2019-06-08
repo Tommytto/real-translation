@@ -7,7 +7,7 @@ import Text from '../../../shared/Text';
 import ExerciseBlockList from '../../components/ExerciseBlockList';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 import CategoryHeader from '../../shared/CategoryHeader';
-import Spacing from '../../../../style/spacing';
+import Spacing from 'style/Spacing';
 
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>

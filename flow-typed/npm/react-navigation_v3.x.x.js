@@ -115,7 +115,7 @@ declare module 'react-navigation' {
    */
 
   /**
-   * Navigation State + Action
+   * NavigationStyle State + Action
    */
 
   declare export type NavigationParams = {
@@ -123,15 +123,15 @@ declare module 'react-navigation' {
   };
 
   declare export type NavigationBackAction = {|
-    type: 'Navigation/BACK',
+    type: 'NavigationStyle/BACK',
     key?: ?string,
   |};
   declare export type NavigationInitAction = {|
-    type: 'Navigation/INIT',
+    type: 'NavigationStyle/INIT',
     params?: NavigationParams,
   |};
   declare export type NavigationNavigateAction = {|
-    type: 'Navigation/NAVIGATE',
+    type: 'NavigationStyle/NAVIGATE',
     routeName: string,
     params?: NavigationParams,
 
@@ -141,7 +141,7 @@ declare module 'react-navigation' {
     key?: string,
   |};
   declare export type NavigationSetParamsAction = {|
-    type: 'Navigation/SET_PARAMS',
+    type: 'NavigationStyle/SET_PARAMS',
 
     // The key of the route where the params should be set
     key: string,
@@ -151,57 +151,57 @@ declare module 'react-navigation' {
   |};
 
   declare export type NavigationPopAction = {|
-    +type: 'Navigation/POP',
+    +type: 'NavigationStyle/POP',
     +n?: number,
     +immediate?: boolean,
   |};
   declare export type NavigationPopToTopAction = {|
-    +type: 'Navigation/POP_TO_TOP',
+    +type: 'NavigationStyle/POP_TO_TOP',
     +immediate?: boolean,
   |};
   declare export type NavigationPushAction = {|
-    +type: 'Navigation/PUSH',
+    +type: 'NavigationStyle/PUSH',
     +routeName: string,
     +params?: NavigationParams,
     +action?: NavigationNavigateAction,
     +key?: string,
   |};
   declare export type NavigationResetAction = {|
-    type: 'Navigation/RESET',
+    type: 'NavigationStyle/RESET',
     index: number,
     key?: ?string,
     actions: Array<NavigationNavigateAction>,
   |};
   declare export type NavigationReplaceAction = {|
-    +type: 'Navigation/REPLACE',
+    +type: 'NavigationStyle/REPLACE',
     +key: string,
     +routeName: string,
     +params?: NavigationParams,
     +action?: NavigationNavigateAction,
   |};
   declare export type NavigationCompleteTransitionAction = {|
-    +type: 'Navigation/COMPLETE_TRANSITION',
+    +type: 'NavigationStyle/COMPLETE_TRANSITION',
     +key?: string,
   |};
 
   declare export type NavigationOpenDrawerAction = {|
-    +type: 'Navigation/OPEN_DRAWER',
+    +type: 'NavigationStyle/OPEN_DRAWER',
     +key?: string,
   |};
   declare export type NavigationCloseDrawerAction = {|
-    +type: 'Navigation/CLOSE_DRAWER',
+    +type: 'NavigationStyle/CLOSE_DRAWER',
     +key?: string,
   |};
   declare export type NavigationToggleDrawerAction = {|
-    +type: 'Navigation/TOGGLE_DRAWER',
+    +type: 'NavigationStyle/TOGGLE_DRAWER',
     +key?: string,
   |};
   declare export type NavigationDrawerOpenedAction = {|
-    +type: 'Navigation/DRAWER_OPENED',
+    +type: 'NavigationStyle/DRAWER_OPENED',
     +key?: string,
   |};
   declare export type NavigationDrawerClosedAction = {|
-    +type: 'Navigation/DRAWER_CLOSED',
+    +type: 'NavigationStyle/DRAWER_CLOSED',
     +key?: string,
   |};
 
@@ -671,7 +671,7 @@ declare module 'react-navigation' {
   >;
 
   /**
-   * Navigation container
+   * NavigationStyle container
    */
 
   declare export type NavigationContainer<
@@ -850,10 +850,10 @@ declare module 'react-navigation' {
   };
 
   declare export var NavigationActions: {
-    BACK: 'Navigation/BACK',
-    INIT: 'Navigation/INIT',
-    NAVIGATE: 'Navigation/NAVIGATE',
-    SET_PARAMS: 'Navigation/SET_PARAMS',
+    BACK: 'NavigationStyle/BACK',
+    INIT: 'NavigationStyle/INIT',
+    NAVIGATE: 'NavigationStyle/NAVIGATE',
+    SET_PARAMS: 'NavigationStyle/SET_PARAMS',
 
     back: (payload?: { key?: ?string }) => NavigationBackAction,
     init: (payload?: { params?: NavigationParams }) => NavigationInitAction,
@@ -870,12 +870,12 @@ declare module 'react-navigation' {
   };
 
   declare export var StackActions: {
-    POP: 'Navigation/POP',
-    POP_TO_TOP: 'Navigation/POP_TO_TOP',
-    PUSH: 'Navigation/PUSH',
-    RESET: 'Navigation/RESET',
-    REPLACE: 'Navigation/REPLACE',
-    COMPLETE_TRANSITION: 'Navigation/COMPLETE_TRANSITION',
+    POP: 'NavigationStyle/POP',
+    POP_TO_TOP: 'NavigationStyle/POP_TO_TOP',
+    PUSH: 'NavigationStyle/PUSH',
+    RESET: 'NavigationStyle/RESET',
+    REPLACE: 'NavigationStyle/REPLACE',
+    COMPLETE_TRANSITION: 'NavigationStyle/COMPLETE_TRANSITION',
 
     pop: (payload: {
       n?: number,
@@ -907,11 +907,11 @@ declare module 'react-navigation' {
   };
 
   declare export var DrawerActions: {
-    OPEN_DRAWER: 'Navigation/OPEN_DRAWER',
-    CLOSE_DRAWER: 'Navigation/CLOSE_DRAWER',
-    TOGGLE_DRAWER: 'Navigation/TOGGLE_DRAWER',
-    DRAWER_OPENED: 'Navigation/DRAWER_OPENED',
-    DRAWER_CLOSED: 'Navigation/DRAWER_CLOSED',
+    OPEN_DRAWER: 'NavigationStyle/OPEN_DRAWER',
+    CLOSE_DRAWER: 'NavigationStyle/CLOSE_DRAWER',
+    TOGGLE_DRAWER: 'NavigationStyle/TOGGLE_DRAWER',
+    DRAWER_OPENED: 'NavigationStyle/DRAWER_OPENED',
+    DRAWER_CLOSED: 'NavigationStyle/DRAWER_CLOSED',
 
     openDrawer: (payload: {
       key?: string,

@@ -2,11 +2,11 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import Button from '../../../shared/Button';
-import COLOR from '../../../../style/colors';
-import Typography from '../../../../style/typography';
-import Spacing from '../../../../style/spacing';
+import Color from 'style/Color';
+import Typography from 'style/Typography';
+import Spacing from 'style/Spacing';
 import LoginLayout from '../../shared/LoginLayout';
-import type {NavigationScreenProp, NavigationState} from "react-navigation";
+import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>
@@ -23,7 +23,9 @@ export default function HelloScreen({ navigation }: TProps) {
                 </Text>
             </View>
             <View style={style.buttonContainer}>
-                <Button style={style.buttonPrev} onPress={() => navigation.navigate('SignIn')}>Login</Button>
+                <Button style={style.buttonPrev} onPress={() => navigation.navigate('SignIn')}>
+                    Login
+                </Button>
                 <Button theme="primary" onPress={() => navigation.navigate('SignUp')}>
                     Sign up
                 </Button>
@@ -35,13 +37,13 @@ export default function HelloScreen({ navigation }: TProps) {
 const style = StyleSheet.create({
     welcomeText: {
         fontWeight: 'bold',
-        color: COLOR.WHITE,
+        color: Color.WHITE,
         marginBottom: '10%',
         textAlign: 'center'
     },
     aboutText: {
         textAlign: 'center',
-        color: COLOR.WHITE,
+        color: Color.WHITE,
         marginBottom: '30%'
     },
     buttonPrev: {

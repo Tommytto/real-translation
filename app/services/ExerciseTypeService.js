@@ -1,10 +1,13 @@
 // @flow
 
-import {EXERCISE_TYPE} from "constants/ExerciseType";
-import ExerciseTypeModel from "models/ExerciseTypeModel";
+import { EXERCISE_TYPE } from 'constants/ExerciseType';
+import ExerciseTypeModel from 'models/ExerciseTypeModel';
 
-export default class ExerciseTypeStore {
-    exerciseTypeList = {
+export default class ExerciseTypeService {
+    getExerciseTypeData() {
+        return this._exerciseTypeData;
+    }
+    _exerciseTypeData = {
         [EXERCISE_TYPE.SOURCE_TO_TARGET]: new ExerciseTypeModel({
             id: EXERCISE_TYPE.SOURCE_TO_TARGET,
             name: 'SourceToTargetExercise'
@@ -16,4 +19,4 @@ export default class ExerciseTypeStore {
     };
 }
 
-export type TExerciseTypeStore = ExerciseTypeStore;
+export type TExerciseTypeService = ExerciseTypeService;

@@ -1,28 +1,37 @@
 // @flow
 import { observable, action } from 'mobx';
-import type {TWord} from "../models/WordModel";
-import WordModel from "../models/WordModel";
-import TranslationModel from "../models/TranslationModel";
+import type { TWord } from '../models/WordModel';
+import WordModel from '../models/WordModel';
+import TranslationModel from '../models/TranslationModel';
+import type { TTranslationModel } from '../models/TranslationModel';
 
 type TTranslationInfo = {|
     source: TWord,
     target: TWord
-|}
-export default class TranslationListStore {
-    @observable translationList = [];
-    @observable translationData = {};
+|};
+export default class TranslationService {
+    @observable _translationList: string[] = [];
+    @observable _translationData: { [string]: TTranslationModel } = {};
+
+    getTranslationList() {
+        return this._translationList;
+    }
+
+    getTranslationData() {
+        return this._translationData;
+    }
 
     @action addTranslation(translationInfo: TTranslationInfo) {
         const translation = this.createTranslation(translationInfo);
-        this.translationList.push(translation.id);
-        this.translationData[translation.id] = translation;
+        this._translationList.push(translation.id);
+        this._translationData[translation.id] = translation;
         return translation;
     }
 
-    createTranslation({source, target}: TTranslationInfo) {
+    createTranslation({ source, target }: TTranslationInfo) {
         const sourceWord = new WordModel(source);
         const targetWord = new WordModel(target);
-        return new TranslationModel({sourceWord, targetWord});
+        return new TranslationModel({ sourceWord, targetWord });
     }
 
     @action addTranslationList(translationList: TTranslationInfo[]) {
@@ -40,12 +49,12 @@ export default class TranslationListStore {
             { data: {}, list: [] }
         );
 
-        this.translationList.push(...list);
-        this.translationData = {
-            ...this.translationData,
+        this._translationList.push(...list);
+        this._translationData = {
+            ...this._translationData,
             ...data
         };
     }
 }
 
-export type TTranslationListStore = TranslationListStore;
+export type TTranslationService = TranslationService;

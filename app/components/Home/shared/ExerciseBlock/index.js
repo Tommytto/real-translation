@@ -3,8 +3,8 @@ import * as React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import Text from '../../../shared/Text';
-import COLOR from 'style/colors';
-import Spacing from 'style/spacing';
+import Color from 'style/Color';
+import Spacing from 'style/Spacing';
 
 type TProps = {
     title: string,
@@ -14,7 +14,7 @@ type TProps = {
     backgroundColor?: string
 };
 
-export default function ExerciseBlock({ title, info, onPress, backgroundColor = COLOR.SKY_BLUE_30 }: TProps) {
+export default function ExerciseBlock({ title, info, onPress, backgroundColor = Color.SKY_BLUE_30 }: TProps) {
     function renderInfo() {
         if (!info) {
             return null;

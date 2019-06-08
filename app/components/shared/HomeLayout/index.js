@@ -1,8 +1,8 @@
 import React from 'react';
 import LinearGradient from "react-native-linear-gradient";
 import {StyleSheet} from "react-native";
-import COLOR from "style/colors";
-import Spacing from "style/spacing";
+import Color from "style/Color";
+import Spacing from "style/Spacing";
 
 type TProps = {
     children: React.Node
@@ -13,7 +13,7 @@ export default function HomeLayout({ children }: TProps) {
         <LinearGradient
             start={{ x: 0.0, y: 1.0 }}
             end={{ x: 1.0, y: 0.0 }}
-            colors={[COLOR.SKY_BLUE_50, COLOR.BLUE_40]}
+            colors={[Color.SKY_BLUE_50, Color.BLUE_40]}
             style={style.container}
         >
             {children}

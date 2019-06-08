@@ -2,7 +2,7 @@
 import React from "react";
 import {View, StyleSheet} from "react-native";
 import Text from "../../../shared/Text";
-import COLOR from "style/colors";
+import Color from "style/Color";
 
 type TProps = {
     string: string,
@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
-        backgroundColor: COLOR.WHITE
+        backgroundColor: Color.WHITE
     }
 });
