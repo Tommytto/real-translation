@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import COLOR from '../../style/colors';
-import Spacing from '../../style/spacing';
-import Typography from '../../style/typography';
+import COLOR from '../../../style/colors';
+import Spacing from '../../../style/spacing';
+import Typography from '../../../style/typography';
 import type {ViewStyle} from "react-native/Libraries/StyleSheet/StyleSheet";
 
 type TProps = {
