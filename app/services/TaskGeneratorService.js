@@ -10,7 +10,7 @@ import TranslationExerciseRatingModel from 'models/TranslationExerciseRatingMode
 
 export type TTask = {
     translation: TTranslation,
-    rating: ?TTranslationExerciseRating
+    ratingEntity: ?TTranslationExerciseRating
 };
 
 export class TaskGeneratorService {
@@ -46,7 +46,7 @@ export class TaskGeneratorService {
 
         this._task = {
             translation,
-            rating
+            ratingEntity: rating
         };
     }
 }

@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import TextInput from 'components/shared/TextInput';
 import Button from 'components/shared/Button';
 import type { TExerciseState } from 'constants/ExerciseState';
@@ -18,14 +18,19 @@ export default function TextInputExercise({ exerciseState, onChangeText, onSubmi
         setTranslation(text);
         onChangeText();
     }
+    function handleSubmit() {
+        Keyboard.dismiss();
+        onSubmit(translation);
+    }
     return (
         <View style={styles.inputContainer}>
             <TextInput
                 error={exerciseState === ExerciseState.ERROR}
                 onChangeText={handleChangeText}
+                value={translation}
                 placeholder="Input text"
             />
-            <Button onPress={() => onSubmit(translation)}>Submit</Button>
+            <Button onPress={handleSubmit}>Submit</Button>
         </View>
     );
 }

@@ -30,7 +30,13 @@ const Color = {
     RED_20: '#E23D4B',
     RED_30: '#E02A39',
     RED_40: '#CC2734',
-    RED_50: '#B8232F'
+    RED_50: '#B8232F',
+    GREEN_10: '#7BDF53',
+    GREEN_20: '#6CDB40',
+    GREEN_30: '#5ED82D',
+    GREEN_40: '#56C529',
+    GREEN_50: '#4DB125',
+    TRANSPARENT: 'transparent'
 };
 
 export default Color;

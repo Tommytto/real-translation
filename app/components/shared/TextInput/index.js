@@ -6,8 +6,8 @@ import Label from '../Label';
 import Color from 'style/Color';
 
 type TProps = {
-    error: ?boolean,
-    label: ?(React.Node | string)
+    error?: boolean,
+    label?: React.Node | string
 };
 
 export default function TextInput({ error, label, ...props }: TProps) {

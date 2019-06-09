@@ -29,10 +29,11 @@ const storeData = {
 const services = {
     exerciseCheckingService: new ExerciseCheckingService({
         translationModel,
-        translationRelationsModel
+        translationRelationsModel,
+        ratingModel
     }),
     authService: new AuthService({ authApi: new AuthApi({ transport: new TransportApi() }) }),
-    translationApi: new TranslateApi({ transport: new TransportApi() }),
+    translationApi: new TranslateApi({ transport: new TransportApi() })
 };
 
 // todo remove it

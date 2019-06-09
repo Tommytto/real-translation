@@ -52,6 +52,21 @@ export default class Model<GItem: { id: string }> {
         return this.getDataList().filter(checker);
     }
 
+    updateOne(scheme: {} | ((GItem) => boolean), schemeToChange: GItem | ((GItem) => GItem)): ?GItem {
+        const item = this.findOne(scheme);
+        if (!item) {
+            return null;
+        }
+        if (schemeToChange instanceof Function) {
+            return schemeToChange(item);
+        }
+        Object.keys(schemeToChange).forEach((propName) => {
+            item[propName] = schemeToChange[propName];
+        });
+
+        return item;
+    }
+
     _getChecker(scheme) {
         let checker;
         if (scheme instanceof Function) {

@@ -9,7 +9,8 @@ import compose from 'helpers/compose';
 import type { TLanguages } from 'constants/Languages';
 import { TaskGeneratorService } from 'services/TaskGeneratorService';
 import { ExerciseState } from 'constants/ExerciseState';
-import WordCardLayout from 'components/Learning/components/shared/WordCardLayout';
+import WordCard from 'components/Learning/shared/WordCard';
+import Button from 'components/shared/Button';
 
 type TProps = {
     langTo: TLanguages,
@@ -19,9 +20,10 @@ type TProps = {
 
 function TextExercise({ taskGeneratorService, langTo, langFrom }: TProps) {
     const checkingService = useService('exerciseCheckingService');
-    // const learningRatingService = useService('learningRatingService');
 
     const [exerciseState, setExerciseState] = useState(ExerciseState.PROGRESS);
+    const [translationAnswer, setTranslationAnswer] = useState();
+    const [rating, setRating] = useState(0);
     const task = taskGeneratorService.getTask();
     const exerciseInfo = {
         exerciseType: ExerciseType.TEXT,
@@ -29,42 +31,80 @@ function TextExercise({ taskGeneratorService, langTo, langFrom }: TProps) {
     };
     useEffect(() => {
         taskGeneratorService.generateTask(exerciseInfo);
+        const { ratingEntity } = taskGeneratorService.getTask();
+        console.log(ratingEntity.rating);
+        setRating(ratingEntity.rating);
     }, []);
 
     function onSubmit(estimatedTranslation) {
         if (!task) {
             return;
         }
-        const isSuccess = checkingService.check({ wordId: task.translation.id, estimatedTranslation, langTo });
-        if (isSuccess) {
+        const { success, answer, rating: ratingAfterCheck } = checkingService.check({
+            wordId: task.translation.id,
+            estimatedTranslation,
+            exerciseType: ExerciseType.TEXT,
+            langTo
+        });
+        setTranslationAnswer(answer);
+        if (success) {
             setExerciseState(ExerciseState.SUCCESS);
         } else {
             setExerciseState(ExerciseState.ERROR);
         }
+        setRating(ratingAfterCheck);
     }
 
     function onChangeText() {
         setExerciseState(ExerciseState.PROGRESS);
     }
 
-    const exerciseActionSlot = (
-        <TextInputExercise exerciseState={exerciseState} onSubmit={onSubmit} onChangeText={onChangeText} />
-    );
+    function handleNextPress() {
+        taskGeneratorService.generateTask(exerciseInfo);
+        const { ratingEntity } = taskGeneratorService.getTask();
+        setRating(ratingEntity.rating);
+        setExerciseState(ExerciseState.PROGRESS);
+        setTranslationAnswer();
+    }
 
+    function renderNextButton() {
+        if (exerciseState === ExerciseState.PROGRESS) {
+            return null;
+        }
+
+        return (
+            <Button style={styles.nextButton} theme="success" onPress={handleNextPress}>
+                Next
+            </Button>
+        );
+    }
     return (
         <View style={styles.container}>
-            <WordCardLayout
+            <WordCard
+                translationAnswer={translationAnswer}
                 exerciseState={exerciseState}
-                source={task ? task.translation.value : ''}
-                exerciseActionSlot={exerciseActionSlot}
+                rating={rating}
+                string={task ? task.translation.value : ''}
             />
+            <View style={styles.bottomPart}>
+                <TextInputExercise exerciseState={exerciseState} onSubmit={onSubmit} onChangeText={onChangeText} />
+                {renderNextButton()}
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center'
+        flex: 1,
+        alignItems: 'center'
+    },
+    bottomPart: {
+        flex: 2,
+        justifyContent: 'space-between'
+    },
+    nextButton: {
+        alignSelf: 'flex-end'
     }
 });
 

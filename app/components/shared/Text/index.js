@@ -55,5 +55,11 @@ const textColorStyle = StyleSheet.create({
     },
     white: {
         color: Color.WHITE
+    },
+    red: {
+        color: Color.RED_30
+    },
+    green: {
+        color: Color.GREEN_30
     }
 });
