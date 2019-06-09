@@ -26,6 +26,11 @@ const Color = {
     CYAN_30: '#E6FAFA',
     CYAN_40: '#E3FAF9',
     CYAN_50: '#E1FAF9',
+    RED_10: '#E5505D',
+    RED_20: '#E23D4B',
+    RED_30: '#E02A39',
+    RED_40: '#CC2734',
+    RED_50: '#B8232F'
 };
 
 export default Color;

@@ -1,15 +1,21 @@
 // @flow
-import React from "react";
-import {View, StyleSheet} from "react-native";
-import Text from "../../../shared/Text";
-import Color from "style/Color";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import Text from '../../../shared/Text';
+import Color from 'style/Color';
 
 type TProps = {
-    string: string,
-}
+    string: string
+};
 
-export default function WordCard({string}: TProps) {
-    return <View style={styles.container}><Text size="40" color="black">{string}</Text></View>
+export default function WordCard({ string }: TProps) {
+    return (
+        <View style={styles.container}>
+            <Text size="40" color="black">
+                {string}
+            </Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

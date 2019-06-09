@@ -3,13 +3,11 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
-import { inject, observer } from 'mobx-react/native';
+import { inject, observer } from 'mobx-react';
 import injectService from '../../../../logic/hocs/injectService';
 import compose from '../../../../helpers/compose';
-import type {TServiceConfig} from "../../../../di";
 
-type TProps = {
-};
+type TProps = {};
 
 type TState = {
     [string]: any
@@ -92,18 +90,16 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         }, []);
 
         const translated = await translationApi.translate(texts);
-        const translationList = translated.map((translation, i) => {
-            return {
-                source: {
-                    lang: 'en',
-                    value: texts[i]
-                },
-                target: {
-                    lang: 'ru',
-                    value: translation
-                }
-            };
-        });
+        const translationList = translated.map((translation, i) => ({
+            source: {
+                lang: 'en',
+                value: texts[i]
+            },
+            target: {
+                lang: 'ru',
+                value: translation
+            }
+        }));
         translationListStore.addTranslationList(translationList);
         const textLines = textBlocks
             .reduce((result, item) => {

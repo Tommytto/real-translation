@@ -66,6 +66,7 @@ module.name_mapper='^services' ->'<PROJECT_ROOT>/app/services'
 module.name_mapper='^models' ->'<PROJECT_ROOT>/app/models'
 module.name_mapper='^components' ->'<PROJECT_ROOT>/app/components'
 module.name_mapper='^routes' ->'<PROJECT_ROOT>/app/routes'
+module.name_mapper='^types' ->'<PROJECT_ROOT>/app/types'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe

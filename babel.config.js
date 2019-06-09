@@ -13,6 +13,7 @@ module.exports = {
                     models: './app/models',
                     components: './app/components',
                     logic: './app/logic',
+                    types: './app/types',
                     routes: './app/routes'
                 }
             }

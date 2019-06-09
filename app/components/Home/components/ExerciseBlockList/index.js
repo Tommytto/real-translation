@@ -4,37 +4,35 @@ import { View, StyleSheet } from 'react-native';
 import useNavigation from 'logic/hooks/use-navigation';
 import Color from 'style/Color';
 import Spacing from 'style/Spacing';
-import { EXERCISE_TYPE } from 'constants/ExerciseType';
+import { ExerciseType } from 'constants/ExerciseType';
 import ExerciseBlock from 'components/Home/shared/ExerciseBlock';
-import useService from 'logic/hooks/use-service';
+import type { TExerciseType } from 'constants/ExerciseType';
+import type { TLanguages } from 'constants/Languages';
+import { LANGUAGES } from 'constants/Languages';
 
 function ExerciseBlockList() {
     const navigation = useNavigation();
-    const exerciseTypeService = useService('exerciseTypeService');
-    const exerciseTypeData = exerciseTypeService.getExerciseTypeData();
 
-    function getPressHandler(type: string) {
+    function getPressHandler(routeInfo: { exerciseType: TExerciseType, langTo: TLanguages, langFrom: TLanguages }) {
         return () => {
-            navigation.navigate('Learning', {
-                type: [type]
-            });
+            navigation.navigate('Learning', routeInfo);
         };
     }
 
     const config = [
         {
-            key: EXERCISE_TYPE.SOURCE_TO_TARGET,
+            key: 'EnglishToRussian',
             title: 'English to Russian',
-            onPress: getPressHandler(exerciseTypeData[EXERCISE_TYPE.SOURCE_TO_TARGET].id),
+            onPress: getPressHandler({ exerciseType: ExerciseType.TEXT, langTo: LANGUAGES.RU, langFrom: LANGUAGES.EN }),
             backgroundColor: Color.SKY_BLUE_30,
             info: '12 words available'
         },
         {
-            key: EXERCISE_TYPE.TARGET_TO_SOURCE,
+            key: 'RussianToEnglish',
             title: 'Russian to English',
             info: '35 words available',
             backgroundColor: Color.TUSCANY_30,
-            onPress: getPressHandler(exerciseTypeData[EXERCISE_TYPE.TARGET_TO_SOURCE].id)
+            onPress: getPressHandler({ exerciseType: ExerciseType.TEXT, langTo: LANGUAGES.EN, langFrom: LANGUAGES.RU })
         }
     ];
     return (

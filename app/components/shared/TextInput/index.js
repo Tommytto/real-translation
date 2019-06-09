@@ -6,10 +6,11 @@ import Label from '../Label';
 import Color from 'style/Color';
 
 type TProps = {
-    label?: React.Node
+    error: ?boolean,
+    label: ?(React.Node | string)
 };
 
-export default function TextInput({ label, ...props }: TProps) {
+export default function TextInput({ error, label, ...props }: TProps) {
     function renderLabel() {
         if (!label) {
             return null;
@@ -17,20 +18,33 @@ export default function TextInput({ label, ...props }: TProps) {
 
         return <Label>{label}</Label>;
     }
+    let colorStyle = styles.default;
+
+    if (error) {
+        colorStyle = styles.error;
+    }
+
     return (
         <View>
             {renderLabel()}
-            <RNTextInput style={style.input} {...props} />
+            <RNTextInput placeholderTextColor={colorStyle.color} style={[styles.input, colorStyle]} {...props} />
         </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     input: {
         paddingTop: Spacing.s2,
         paddingBottom: Spacing.s2,
         borderBottomWidth: 2,
+        marginBottom: 10
+    },
+    default: {
         borderBottomColor: Color.WHITE,
-        marginBottom: 10,
+        color: Color.WHITE
+    },
+    error: {
+        borderBottomColor: Color.RED_30,
+        color: Color.RED_20
     }
 });

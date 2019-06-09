@@ -1,17 +1,10 @@
 // @flow
-import uuid from 'uuid';
-import type { TWordModel } from './WordModel';
+import Model from 'models/Model';
+import type { TLanguages } from 'constants/Languages';
 
-export default class TranslationModel {
-    sourceWord: TWordModel;
-    targetWord: TWordModel;
-    id: string;
-    constructor({ sourceWord, targetWord }) {
-        this.id = uuid();
-        this.sourceWord = sourceWord;
-        this.targetWord = targetWord;
-    }
-}
-
-export type TTranslationModel = TranslationModel;
-const a: number = false;
+export type TTranslation = {
+    id: string,
+    value: string,
+    lang: TLanguages
+};
+export default class TranslationModel extends Model<TTranslation> {}

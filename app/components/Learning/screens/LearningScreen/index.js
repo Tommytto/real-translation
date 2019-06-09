@@ -1,34 +1,46 @@
 // @flow
-import React, { useMemo } from 'react';
+import React from 'react';
 import HomeLayout from '../../../shared/HomeLayout';
-import { View, StyleSheet } from 'react-native';
-import WordCard from '../../shared/WordCard';
-import type { NavigationScreenProp, NavigationState } from 'react-navigation';
-import TextInput from '../../../shared/TextInput';
-import useService from 'logic/hooks/use-service';
-import { EXERCISE_TYPE } from 'constants/ExerciseType';
-import TargetToSourceExercise from '../../components/TargetToSourceExercise';
-import SourceToTargetExercise from '../../components/SourceToTargetExercise';
+import type { NavigationScreenProp } from 'react-navigation';
+import TextExercise from '../../components/TextExercise';
+import { ExerciseType } from 'constants/ExerciseType';
+import type { TExerciseType } from 'constants/ExerciseType';
+import type { TLanguages } from 'constants/Languages';
+import Color from 'style/Color';
+
 type TProps = {
-    navigation: NavigationScreenProp<NavigationState>
+    navigation: NavigationScreenProp<{
+        params: {
+            exerciseType: TExerciseType,
+            langTo: TLanguages,
+            langFrom: TLanguages
+        }
+    }>
 };
 
 const LearningScreen = ({ navigation }: TProps) => {
-    console.log(navigation);
     const config = {
-        [EXERCISE_TYPE.TARGET_TO_SOURCE]: TargetToSourceExercise,
-        [EXERCISE_TYPE.SOURCE_TO_TARGET]: SourceToTargetExercise
+        [ExerciseType.TEXT]: TextExercise
     };
-    const Compon = config[navigation.state.params.type[0]];
+    const exerciseInfo = navigation.state.params;
+    const ExerciseComponent = config[exerciseInfo.exerciseType];
     return (
         <HomeLayout>
-            <Compon />
+            <ExerciseComponent {...exerciseInfo} />
         </HomeLayout>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {}
+LearningScreen.navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('headerTitle', 'Word translations'),
+    headerStyle: {
+        backgroundColor: Color.WHITE
+    },
+    headerTintColor: Color.BLUE_10,
+    headerTitleStyle: {
+        color: Color.BLUE_10,
+        fontWeight: 'bold'
+    }
 });
 
 export default LearningScreen;
