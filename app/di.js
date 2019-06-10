@@ -20,16 +20,17 @@ const models = {
 const { ratingModel, translationModel, translationRelationsModel } = models;
 
 const storeData = {
-    taskGeneratorService: new TaskGeneratorService({
-        translationModel,
-        ratingModel
-    })
+
 };
 
 const services = {
     exerciseCheckingService: new ExerciseCheckingService({
         translationModel,
         translationRelationsModel,
+        ratingModel
+    }),
+    taskGeneratorService: new TaskGeneratorService({
+        translationModel,
         ratingModel
     }),
     authService: new AuthService({ authApi: new AuthApi({ transport: new TransportApi() }) }),

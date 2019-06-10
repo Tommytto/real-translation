@@ -33,6 +33,10 @@ export class TaskGeneratorService {
         return this._task;
     }
 
+    clear() {
+        this._task = null;
+    }
+
     @action generateTask({ exerciseType, lang }: { exerciseType: TExerciseType, lang: TLanguages }) {
         const taskList = this._translationModel.findMany({
             lang

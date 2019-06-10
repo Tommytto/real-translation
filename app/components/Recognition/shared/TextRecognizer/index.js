@@ -33,6 +33,7 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         canDetectFaces: false,
         canDetectBarcode: false
     };
+    recognized = [];
     camera: Object = null;
     state = {
         textBlocks: [],
@@ -81,8 +82,11 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         const fontSizeOnHeight = height;
         return Math.min(fontSizeOnHeight, fontSizeOnWidth);
     }
+    componentWillUnmount() {
+
+    }
     textRecognized = async (object: Object) => {
-        const { translationApi, translationListStore } = this.props;
+        const { translationApi } = this.props;
         const { textBlocks } = object;
         const texts = textBlocks.reduce((result, item) => {
             result.push(...item.components.map((item) => item.value));
@@ -90,17 +94,17 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         }, []);
 
         const translated = await translationApi.translate(texts);
-        const translationList = translated.map((translation, i) => ({
-            source: {
+        const translationList = translated.map((translation, i) => [
+            {
                 lang: 'en',
                 value: texts[i]
             },
-            target: {
+            {
                 lang: 'ru',
                 value: translation
             }
-        }));
-        translationListStore.addTranslationList(translationList);
+        ]);
+        this.recognized.push(...translationList);
         const textLines = textBlocks
             .reduce((result, item) => {
                 result.push(...item.components);
@@ -240,6 +244,6 @@ const styles = StyleSheet.create({
 
 export default compose(
     injectService('translationApi'),
-    inject('translationService'),
+    injectService('translationApi'),
     observer
 )(TextRecognizer);

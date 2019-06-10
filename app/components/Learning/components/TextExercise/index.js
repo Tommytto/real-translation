@@ -18,8 +18,9 @@ type TProps = {
     taskGeneratorService: TaskGeneratorService
 };
 
-function TextExercise({ taskGeneratorService, langTo, langFrom }: TProps) {
+function TextExercise({ langTo, langFrom }: TProps) {
     const checkingService = useService('exerciseCheckingService');
+    const taskGeneratorService = useService('taskGeneratorService');
 
     const [exerciseState, setExerciseState] = useState(ExerciseState.PROGRESS);
     const [translationAnswer, setTranslationAnswer] = useState();
@@ -32,8 +33,10 @@ function TextExercise({ taskGeneratorService, langTo, langFrom }: TProps) {
     useEffect(() => {
         taskGeneratorService.generateTask(exerciseInfo);
         const { ratingEntity } = taskGeneratorService.getTask();
-        console.log(ratingEntity.rating);
         setRating(ratingEntity.rating);
+        return () => {
+            taskGeneratorService.clear();
+        };
     }, []);
 
     function onSubmit(estimatedTranslation) {
@@ -108,7 +111,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default compose(
-    inject('taskGeneratorService'),
-    observer
-)(TextExercise);
+export default compose(observer)(TextExercise);
