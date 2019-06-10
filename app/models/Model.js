@@ -2,10 +2,12 @@
 
 import type { $$EntityObject } from 'types/utils';
 import uuid from 'uuid';
+import { observable } from 'mobx';
 
 export default class Model<GItem: { id: string }> {
-    _idList: string[] = [];
+    @observable _idList: string[] = [];
     _data: $$EntityObject<GItem> = {};
+    EntityClass: any;
 
     _verifyId(item: $Diff<GItem, { id?: string }>): GItem {
         if (!item.id) {
@@ -23,7 +25,9 @@ export default class Model<GItem: { id: string }> {
     }
 
     addOne(item: $Diff<GItem, { id?: string }>) {
-        const verifiedItem = this._verifyId(item);
+        const Klass = this.EntityClass;
+        const entity = Klass ? new Klass(item) : item;
+        const verifiedItem = this._verifyId(entity);
         this._idList.push(verifiedItem.id);
         this._data[verifiedItem.id] = verifiedItem;
         return verifiedItem;

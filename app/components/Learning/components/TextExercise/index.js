@@ -5,70 +5,63 @@ import TextInputExercise from 'components/Learning/components/shared/TextInputEx
 import { ExerciseType } from 'constants/ExerciseType';
 import { View, StyleSheet } from 'react-native';
 import { inject, observer } from 'mobx-react';
+import { action } from 'mobx';
 import compose from 'helpers/compose';
 import type { TLanguages } from 'constants/Languages';
 import { TaskGeneratorService } from 'services/TaskGeneratorService';
 import { ExerciseState } from 'constants/ExerciseState';
 import WordCard from 'components/Learning/shared/WordCard';
 import Button from 'components/shared/Button';
+import useExerciseState from 'components/Learning/components/logic/use-exercise-state';
+import useTaskSet from 'components/Learning/components/logic/use-task-set';
+import useNavigation from 'logic/hooks/use-navigation';
 
 type TProps = {
     langTo: TLanguages,
-    langFrom: TLanguages,
-    taskGeneratorService: TaskGeneratorService
+    langFrom: TLanguages
 };
 
 function TextExercise({ langTo, langFrom }: TProps) {
     const checkingService = useService('exerciseCheckingService');
-    const taskGeneratorService = useService('taskGeneratorService');
+    const navigation = useNavigation();
 
-    const [exerciseState, setExerciseState] = useState(ExerciseState.PROGRESS);
+    const { exerciseState, setProgressState, setErrorState, setSuccessState } = useExerciseState(
+        ExerciseState.PROGRESS
+    );
     const [translationAnswer, setTranslationAnswer] = useState();
-    const [rating, setRating] = useState(0);
-    const task = taskGeneratorService.getTask();
-    const exerciseInfo = {
+    const [{ value: task, done }, nextTask] = useTaskSet({
         exerciseType: ExerciseType.TEXT,
         lang: langFrom
-    };
-    useEffect(() => {
-        taskGeneratorService.generateTask(exerciseInfo);
-        const { ratingEntity } = taskGeneratorService.getTask();
-        setRating(ratingEntity.rating);
-        return () => {
-            taskGeneratorService.clear();
-        };
-    }, []);
+    });
+
+    if (done) {
+        navigation.navigate('Home');
+        return;
+    }
 
     function onSubmit(estimatedTranslation) {
         if (!task) {
             return;
         }
-        const { success, answer, rating: ratingAfterCheck } = checkingService.check({
+        const { success, answerList } = checkingService.check({
             wordId: task.translation.id,
             estimatedTranslation,
             exerciseType: ExerciseType.TEXT,
             langTo
         });
-        setTranslationAnswer(answer);
+        setTranslationAnswer(answerList.join(','));
         if (success) {
-            setExerciseState(ExerciseState.SUCCESS);
+            setSuccessState();
         } else {
-            setExerciseState(ExerciseState.ERROR);
+            setErrorState();
         }
-        setRating(ratingAfterCheck);
     }
 
-    function onChangeText() {
-        setExerciseState(ExerciseState.PROGRESS);
-    }
-
-    function handleNextPress() {
-        taskGeneratorService.generateTask(exerciseInfo);
-        const { ratingEntity } = taskGeneratorService.getTask();
-        setRating(ratingEntity.rating);
-        setExerciseState(ExerciseState.PROGRESS);
+    const handleNextPress = action(() => {
+        nextTask();
+        setProgressState();
         setTranslationAnswer();
-    }
+    });
 
     function renderNextButton() {
         if (exerciseState === ExerciseState.PROGRESS) {
@@ -81,16 +74,17 @@ function TextExercise({ langTo, langFrom }: TProps) {
             </Button>
         );
     }
+
     return (
         <View style={styles.container}>
             <WordCard
                 translationAnswer={translationAnswer}
                 exerciseState={exerciseState}
-                rating={rating}
+                rating={task && task.ratingEntity ? task.ratingEntity.rating : 0}
                 string={task ? task.translation.value : ''}
             />
             <View style={styles.bottomPart}>
-                <TextInputExercise exerciseState={exerciseState} onSubmit={onSubmit} onChangeText={onChangeText} />
+                <TextInputExercise exerciseState={exerciseState} onSubmit={onSubmit} onChangeText={setProgressState} />
                 {renderNextButton()}
             </View>
         </View>

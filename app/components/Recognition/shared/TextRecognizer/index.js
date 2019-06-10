@@ -37,15 +37,15 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
     camera: Object = null;
     state = {
         textBlocks: [],
-        canDetectText: false,
-        type: null,
-        whiteBalance: null,
-        ratio: null,
-        depth: null
+        canDetectText: false
     };
 
     fontSizeWidth = 0.3;
     fontSizeHeight = 1;
+
+    componentWillUnmount() {
+        this.props.textRecognizerService.addTranslations(this.recognized);
+    }
 
     toggle = (value: string) => () => this.setState((prevState) => ({ [value]: !prevState[value] }));
 
@@ -81,9 +81,6 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         const fontSizeOnWidth = widthOnLetter / this.fontSizeWidth;
         const fontSizeOnHeight = height;
         return Math.min(fontSizeOnHeight, fontSizeOnWidth);
-    }
-    componentWillUnmount() {
-
     }
     textRecognized = async (object: Object) => {
         const { translationApi } = this.props;
@@ -132,10 +129,10 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
                 style={{
                     flex: 1
                 }}
-                type={this.state.type}
-                whiteBalance={this.state.whiteBalance}
-                ratio={this.state.ratio}
-                focusDepth={this.state.depth}
+                type={this.config.type}
+                whiteBalance={this.config.whiteBalance}
+                ratio={this.config.ratio}
+                focusDepth={this.config.depth}
                 trackingEnabled
                 permissionDialogTitle="Permission to use camera"
                 permissionDialogMessage="We need your permission to use your camera phone"
@@ -244,6 +241,6 @@ const styles = StyleSheet.create({
 
 export default compose(
     injectService('translationApi'),
-    injectService('translationApi'),
+    injectService('textRecognizerService'),
     observer
 )(TextRecognizer);

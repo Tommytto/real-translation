@@ -36,7 +36,6 @@ export default function WordCard({ translationAnswer, rating, exerciseState, str
         );
     }
 
-    console.log(rating);
     return (
         <View style={[styles.container, styles[exerciseState]]}>
             <Progress.Bar

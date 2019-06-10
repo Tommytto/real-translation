@@ -1,27 +1,33 @@
 // @flow
 import type { TLanguages } from 'constants/Languages';
-import TranslationRelationModels from 'models/TranslationRelationModels';
+import TranslationRelationModel from 'models/TranslationRelationModel';
 import TranslationModel from 'models/TranslationModel';
 import TranslationExerciseRatingModel from 'models/TranslationExerciseRatingModel';
 import type { TExerciseType } from 'constants/ExerciseType';
+import TranslationHelperService from 'services/TranslationHelperService';
+import type { TTranslation } from 'models/TranslationModel';
 
 export default class ExerciseCheckingService {
-    _translationRelationsModel: TranslationRelationModels;
+    _translationRelationModel: TranslationRelationModel;
     _translationModel: TranslationModel;
     _ratingModel: TranslationExerciseRatingModel;
+    _translationHelper: TranslationHelperService;
 
     constructor({
         translationModel,
         ratingModel,
-        translationRelationsModel
+        translationRelationModel,
+        translationHelper
     }: {
         translationModel: TranslationModel,
         ratingModel: TranslationExerciseRatingModel,
-        translationRelationsModel: TranslationRelationModels
+        translationRelationModel: TranslationRelationModel,
+        translationHelper: TranslationHelperService
     }) {
         this._translationModel = translationModel;
-        this._translationRelationsModel = translationRelationsModel;
+        this._translationRelationModel = translationRelationModel;
         this._ratingModel = ratingModel;
+        this._translationHelper = translationHelper;
     }
 
     // TODO Переделать структуру
@@ -35,31 +41,21 @@ export default class ExerciseCheckingService {
         langTo: TLanguages,
         exerciseType: TExerciseType,
         estimatedTranslation: string
-    }): { success: boolean, answer: string, rating: number } {
-        const translationRelations = this._translationRelationsModel.findOne(({ relationList }) =>
-            relationList.includes(wordId)
-        );
-        if (!translationRelations) {
+    }): { success: boolean, answerList: string[], rating: number } {
+        const answerList = this._translationHelper.findAnswerList({ wordId, lang: langTo });
+        if (!answerList.length) {
             return {
                 success: false,
-                answer: '',
+                answerList: [],
                 rating: 0
             };
         }
-        const translationList = this._translationModel.findMany({
-            lang: langTo
-        });
-        const finalTranslation = translationList.find((translation) =>
-            translationRelations.relationList.includes(translation.id)
-        );
-        const finalValue = finalTranslation ? finalTranslation.value : '';
-        const success = finalValue === estimatedTranslation.trim();
-
+        const success = answerList.some(({ value }) => value === estimatedTranslation.trim());
         const ratingEntity = this._updateRating({ wordId, isSuccess: success, exerciseType });
-        console.log(ratingEntity);
+
         return {
             success,
-            answer: finalValue,
+            answerList: answerList.map((item) => item.value),
             rating: ratingEntity ? ratingEntity.rating : 0
         };
     }
@@ -80,7 +76,7 @@ export default class ExerciseCheckingService {
                 exerciseType
             },
             (item) => {
-                if (item.rating + step > 0) {
+                if (item.rating + step >= 0) {
                     // eslint-disable-next-line no-param-reassign
                     item.rating += step;
                 }
