@@ -14,6 +14,7 @@ module.exports = {
                     components: './app/components',
                     logic: './app/logic',
                     types: './app/types',
+                    di: './app/di',
                     routes: './app/routes'
                 }
             }

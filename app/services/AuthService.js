@@ -1,6 +1,6 @@
 // @flow
-import { observable, action } from 'mobx';
 import type { TAuthApi } from 'services/rest/AuthApi';
+import injectSharedService from 'logic/decorators/injectSharedService';
 
 export type TUser = $Exact<{
     name: string,
@@ -8,16 +8,13 @@ export type TUser = $Exact<{
     email: string
 }>;
 
-export default class AuthService {
+@injectSharedService(['authApi'])
+class AuthService {
     _name: string = '';
     _email: string = '';
     _id: string = '';
     _isLoading: boolean = false;
     _authApi: TAuthApi;
-
-    constructor({ authApi }: { authApi: TAuthApi }) {
-        this._authApi = authApi;
-    }
 
     _setUser({ name, id, email }: TUser) {
         this._name = name;
@@ -51,3 +48,4 @@ export default class AuthService {
 }
 
 export type TAuthService = AuthService;
+export default AuthService;

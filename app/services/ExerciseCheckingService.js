@@ -1,34 +1,16 @@
 // @flow
 import type { TLanguages } from 'constants/Languages';
-import TranslationRelationModel from 'models/TranslationRelationModel';
-import TranslationModel from 'models/TranslationModel';
 import TranslationExerciseRatingModel from 'models/TranslationExerciseRatingModel';
 import type { TExerciseType } from 'constants/ExerciseType';
 import TranslationHelperService from 'services/TranslationHelperService';
-import type { TTranslation } from 'models/TranslationModel';
+import injectModel from 'logic/decorators/injectModel';
+import injectSharedService from 'logic/decorators/injectSharedService';
 
-export default class ExerciseCheckingService {
-    _translationRelationModel: TranslationRelationModel;
-    _translationModel: TranslationModel;
+@injectModel(['translationModel', 'ratingModel', 'translationRelationModel'])
+@injectSharedService(['translationHelper'])
+class ExerciseCheckingService {
     _ratingModel: TranslationExerciseRatingModel;
     _translationHelper: TranslationHelperService;
-
-    constructor({
-        translationModel,
-        ratingModel,
-        translationRelationModel,
-        translationHelper
-    }: {
-        translationModel: TranslationModel,
-        ratingModel: TranslationExerciseRatingModel,
-        translationRelationModel: TranslationRelationModel,
-        translationHelper: TranslationHelperService
-    }) {
-        this._translationModel = translationModel;
-        this._translationRelationModel = translationRelationModel;
-        this._ratingModel = ratingModel;
-        this._translationHelper = translationHelper;
-    }
 
     // TODO Переделать структуру
     check({
@@ -86,3 +68,5 @@ export default class ExerciseCheckingService {
         );
     }
 }
+
+export default ExerciseCheckingService;

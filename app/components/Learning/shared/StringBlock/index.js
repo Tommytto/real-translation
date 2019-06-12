@@ -1,19 +1,23 @@
 // @flow
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import Text from '../../../shared/Text';
 import Color from 'style/Color';
 import Spacing from 'style/Spacing';
+import { ExerciseState } from 'constants/ExerciseState';
 
 type TProps = {
-    string: string
+    string: string,
+    selected: boolean
 };
 
-export default function StringBlock({ string }: TProps) {
+export default function StringBlock({ selected, string, state, onPress }: TProps) {
     return (
-        <View style={styles.block}>
-            <Text style={styles.string} size="90">{string}</Text>
-        </View>
+        <TouchableOpacity onPress={onPress} style={[styles.block, selected ? styles[state] : undefined]}>
+            <Text style={styles.string} size="70">
+                {string}
+            </Text>
+        </TouchableOpacity>
     );
 }
 
@@ -24,6 +28,11 @@ const styles = StyleSheet.create({
         padding: Spacing.s2,
         alignSelf: 'flex-start'
     },
-    string: {
+    [ExerciseState.PROGRESS]: {},
+    [ExerciseState.ERROR]: {
+        backgroundColor: Color.RED_30
+    },
+    [ExerciseState.SUCCESS]: {
+        backgroundColor: Color.GREEN_30
     }
 });

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
 import { inject, observer } from 'mobx-react';
@@ -44,16 +44,19 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
     fontSizeHeight = 1;
 
     componentWillUnmount() {
-        this.props.textRecognizerService.addTranslations(this.recognized);
+        this.props.translationService.addTranslations(this.recognized);
     }
 
     toggle = (value: string) => () => this.setState((prevState) => ({ [value]: !prevState[value] }));
 
-    renderTextBlocks = () => (
-        <View style={styles.facesContainer} pointerEvents="none">
-            {this.state.textBlocks.map(this.renderTextBlock)}
-        </View>
-    );
+    renderTextBlocks = () => {
+        console.log(this.state.textBlocks);
+        return (
+            <View style={styles.facesContainer} pointerEvents="none">
+                {this.state.textBlocks.map(this.renderTextBlock)}
+            </View>
+        );
+    };
 
     renderTextBlock = ({ bounds, value, fontSize }: Object) => (
         <React.Fragment key={value + bounds.origin.x}>
@@ -83,14 +86,13 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         return Math.min(fontSizeOnHeight, fontSizeOnWidth);
     }
     textRecognized = async (object: Object) => {
-        const { translationApi } = this.props;
+        const { textRecognitionService } = this.props;
         const { textBlocks } = object;
         const texts = textBlocks.reduce((result, item) => {
             result.push(...item.components.map((item) => item.value));
             return result;
         }, []);
-
-        const translated = await translationApi.translate(texts);
+        const translated = await textRecognitionService.translate(texts);
         const translationList = translated.map((translation, i) => [
             {
                 lang: 'en',
@@ -116,6 +118,7 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
                     height: item.bounds.size.height
                 })
             }));
+        console.log(textLines);
         this.setState({ textBlocks: textLines });
     };
 
@@ -150,7 +153,7 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
                             justifyContent: 'flex-end'
                         }}
                     >
-                        <TouchableOpacity onPress={this.toggle('canDetectText')} style={styles.flipButton}>
+                        <TouchableOpacity onPress={this.handlePressDetect} style={styles.flipButton}>
                             <Text style={styles.flipText}>{!canDetectText ? 'Detect Text' : 'Detecting Text'}</Text>
                         </TouchableOpacity>
                     </View>
@@ -159,6 +162,18 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
             </RNCamera>
         );
     }
+
+    handlePressDetect = () => {
+        console.log(this.state.canDetectText);
+        const lastDetected = this.state.canDetectText;
+        this.setState({
+            canDetectText: !lastDetected
+        });
+        if (!this.state.canDetectText && lastDetected) {
+            const filtered = this.props.textRecognitionService.filterTranslationList(this.recognized);
+            this.props.translationService.addTranslations(filtered);
+        }
+    };
 
     render() {
         return <View style={styles.container}>{this.renderCamera()}</View>;
@@ -240,7 +255,7 @@ const styles = StyleSheet.create({
 });
 
 export default compose(
-    injectService('translationApi'),
-    injectService('textRecognizerService'),
+    injectService('translationService'),
+    injectService('textRecognitionService'),
     observer
 )(TextRecognizer);

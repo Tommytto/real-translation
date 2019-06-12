@@ -32,7 +32,7 @@ function ExerciseBlockList() {
             title: 'Russian to English',
             info: '35 words available',
             backgroundColor: Color.TUSCANY_30,
-            onPress: getPressHandler({ exerciseType: ExerciseType.TEXT, langTo: LANGUAGES.EN, langFrom: LANGUAGES.RU })
+            onPress: getPressHandler({ exerciseType: ExerciseType.BLOCK, langTo: LANGUAGES.EN, langFrom: LANGUAGES.RU })
         }
     ];
     return (

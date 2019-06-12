@@ -26,7 +26,7 @@ export default function WordCard({ translationAnswer, rating, exerciseState, str
         progressColor = Color.RED_30;
     }
     function renderAnswer() {
-        if (!translationAnswer) {
+        if (exerciseState === ExerciseState.PROGRESS) {
             return null;
         }
         return (
@@ -41,8 +41,9 @@ export default function WordCard({ translationAnswer, rating, exerciseState, str
             <Progress.Bar
                 animated={string === prevString.current}
                 progress={rating / 100}
+                borderWidth={0}
                 color={progressColor}
-                width={246}
+                width={250}
                 borderRadius={0}
             />
             <View style={styles.topContainer}>
