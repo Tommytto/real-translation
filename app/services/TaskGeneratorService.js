@@ -82,9 +82,9 @@ class TaskGeneratorService {
     }
 
     getRandomSet({ lang: langFrom, except, count }) {
-        const translationList = this._translationModel.findMany(({ lang, value }) => {
-            return langFrom === lang && value !== except;
-        });
+        const translationList = this._translationModel.findMany(
+            ({ lang, value }) => langFrom === lang && value !== except
+        );
 
         return this._getRandomTranslationList(translationList, count);
     }
