@@ -8,20 +8,26 @@ export default class BaseApi {
         this.transport = transport;
     }
 
-    requestWithJson(url: string, customSettings: { headers: Headers, body: Object }) {
+    requestWithJson(url: string, { body, headers, ...customSettings }: { headers: Headers, body: Object }) {
         const defaultSettings = {
+            method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(customSettings.body)
+            body: JSON.stringify(body)
         };
-        if (customSettings.headers) {
+        if (headers) {
             defaultSettings.headers = {
                 ...defaultSettings.headers,
-                ...customSettings.headers
+                ...headers
             };
         }
 
+        const a = {
+            ...defaultSettings,
+            ...customSettings
+        };
         return this.transport.request(url, {
             ...defaultSettings,
             ...customSettings

@@ -38,12 +38,25 @@ class AuthService {
         return !!this._id;
     }
 
-    async auth() {
+    async auth(data) {
         this._setIsLoading(true);
-        const userInfo = await this._authApi.auth();
+        const userInfo = await this._authApi.auth(data);
         this._setIsLoading(false);
 
-        this._setUser(userInfo);
+        if (userInfo) {
+            this._setUser(userInfo);
+            return true;
+        }
+
+        return false;
+    }
+
+    async register(data) {
+        this._setIsLoading(true);
+        const userInfo = await this._authApi.register(data);
+        this._setIsLoading(false);
+
+        return Boolean(userInfo.message);
     }
 }
 

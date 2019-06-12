@@ -12,10 +12,10 @@ function AuthCheckerScreen({ navigation }: TProps) {
     const authService = useService('authService');
     useEffect(() => {
         (async () => {
-            if (!authService.isLoggedIn()) {
-                await authService.auth();
-            }
-
+            // if (!authService.isLoggedIn()) {
+            //     await authService.auth();
+            // }
+            //
             if (authService.isLoggedIn()) {
                 navigation.navigate('App');
             } else {

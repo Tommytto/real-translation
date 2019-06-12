@@ -50,7 +50,6 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
     toggle = (value: string) => () => this.setState((prevState) => ({ [value]: !prevState[value] }));
 
     renderTextBlocks = () => {
-        console.log(this.state.textBlocks);
         return (
             <View style={styles.facesContainer} pointerEvents="none">
                 {this.state.textBlocks.map(this.renderTextBlock)}
@@ -83,7 +82,7 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
         const heightOnLetter = height;
         const fontSizeOnWidth = widthOnLetter / this.fontSizeWidth;
         const fontSizeOnHeight = height;
-        return Math.min(fontSizeOnHeight, fontSizeOnWidth);
+        return Math.floor(Math.min(fontSizeOnHeight, fontSizeOnWidth) - 5);
     }
     textRecognized = async (object: Object) => {
         const { textRecognitionService } = this.props;
@@ -118,7 +117,6 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
                     height: item.bounds.size.height
                 })
             }));
-        console.log(textLines);
         this.setState({ textBlocks: textLines });
     };
 
@@ -164,7 +162,6 @@ class TextRecognizer<UpperProps> extends React.Component<UpperProps, TState> {
     }
 
     handlePressDetect = () => {
-        console.log(this.state.canDetectText);
         const lastDetected = this.state.canDetectText;
         this.setState({
             canDetectText: !lastDetected
