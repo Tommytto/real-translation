@@ -6,6 +6,7 @@ import Color from 'style/Color';
 import type { TExerciseState } from 'constants/ExerciseState';
 import { ExerciseState } from 'constants/ExerciseState';
 import * as Progress from 'react-native-progress';
+import PlatformHelpers from 'helpers/platform';
 
 type TProps = {
     string: string,
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 3,
         width: 250,
+        marginTop: PlatformHelpers.isIOS ? 100 : 0,
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomLeftRadius: 8,

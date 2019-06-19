@@ -1,0 +1,12 @@
+{
+  "concurrentFiles": 1,
+  "excludeGlob": [
+    "node_modules/**"
+  ],
+  "flowCommandPath": "./node_modules/.bin/flow",
+  "includeGlob": [
+    "app/**/*.js"
+  ],
+  "threshold": 90,
+  "type": "text"
+}

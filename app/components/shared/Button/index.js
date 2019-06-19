@@ -55,7 +55,8 @@ const buttonThemes = StyleSheet.create({
     },
     outlinePrimary: {
         backgroundColor: Color.TRANSPARENT,
-        borderColor: Color.BLUE_10
+        borderColor: Color.BLUE_10,
+        borderWidth: 2
     },
     success: {
         backgroundColor: Color.GREEN_30

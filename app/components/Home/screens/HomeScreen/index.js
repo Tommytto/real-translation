@@ -8,12 +8,31 @@ import ExerciseBlockList from '../../components/ExerciseBlockList';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 import CategoryHeader from '../../shared/CategoryHeader';
 import Spacing from 'style/Spacing';
+import PlatformHelpers from 'helpers/platform';
 
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>
 };
 
 function HomeScreen({ navigation }: TProps) {
+    function renderButton() {
+        const commonProps = {
+            style: styles.cameraBtn,
+            onPress: () => navigation.navigate('TextRecognizer')
+        };
+        if (PlatformHelpers.isIOS) {
+            return (
+                <Button theme="outlinePrimary" {...commonProps}>
+                    Camera
+                </Button>
+            );
+        }
+        return (
+            <Button icon {...commonProps}>
+                Camera
+            </Button>
+        );
+    }
     return (
         <HomeLayout>
             <View style={styles.content}>
@@ -24,16 +43,7 @@ function HomeScreen({ navigation }: TProps) {
                 <CategoryHeader>Exercises</CategoryHeader>
                 <ExerciseBlockList />
             </View>
-            <View>
-                <Button
-                    style={styles.cameraBtn}
-                    icon
-                    theme="primary"
-                    onPress={() => navigation.navigate('TextRecognizer')}
-                >
-                    camera
-                </Button>
-            </View>
+            <View>{renderButton()}</View>
         </HomeLayout>
     );
 }

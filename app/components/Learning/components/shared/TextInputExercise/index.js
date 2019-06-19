@@ -12,11 +12,10 @@ type TProps = {
     onChangeText: () => void
 };
 
-export default function TextInputExercise({ exerciseState, onChangeText, onSubmit }: TProps) {
+export default function TextInputExercise({ exerciseState, onSubmit }: TProps) {
     const [translation, setTranslation] = useState('');
     function handleChangeText(text) {
         setTranslation(text);
-        onChangeText();
     }
     function handleSubmit() {
         Keyboard.dismiss();

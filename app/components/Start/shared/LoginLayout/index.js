@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import Spacing from 'style/Spacing';
 import Color from 'style/Color';
 import LinearGradient from 'react-native-linear-gradient';
+import PlatformHelpers from 'helpers/platform';
 
 type TProps = {
     children: React.Node
@@ -26,6 +27,6 @@ const style = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFill,
         padding: Spacing.s10,
-        paddingTop: 2 * Spacing.s10
+        paddingTop: PlatformHelpers.isIOS ? 150 : 2 * Spacing.s10
     }
 });

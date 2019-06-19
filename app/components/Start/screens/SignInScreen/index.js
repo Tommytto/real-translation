@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import Button from '../../../shared/Button';
 import LoginLayout from '../../shared/LoginLayout';
 import Text from '../../../shared/Text';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import TextInput from '../../../shared/TextInput';
 import type { NavigationScreenProp, NavigationState } from 'react-navigation';
 import useService from 'logic/hooks/use-service';
+import { observer } from 'mobx-react';
+import compose from 'helpers/compose';
 
 type TProps = {
     navigation: NavigationScreenProp<NavigationState>
@@ -27,9 +29,18 @@ function SignInScreen({ navigation }: TProps) {
         }
     }
 
+    function renderPreloader() {
+        if (authService.getIsLoading()) {
+            return <ActivityIndicator style={{ position: 'absolute' }} size="large" color="#0000ff" />;
+        }
+
+        return null;
+    }
+
     return (
         <LoginLayout>
             <View style={style.content}>
+                {renderPreloader()}
                 <Text size="40" weight="bold">
                     Sign in
                 </Text>
@@ -59,4 +70,4 @@ const style = StyleSheet.create({
     }
 });
 
-export default SignInScreen;
+export default compose(observer)(SignInScreen);
