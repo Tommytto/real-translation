@@ -31,7 +31,13 @@ function SignInScreen({ navigation }: TProps) {
 
     function renderPreloader() {
         if (authService.getIsLoading()) {
-            return <ActivityIndicator style={{ position: 'absolute' }} size="large" color="#0000ff" />;
+            return (
+                <ActivityIndicator
+                    style={{ position: 'absolute', left: '50%', zIndex: 100, top: '10%' }}
+                    size="large"
+                    color="#0000ff"
+                />
+            );
         }
 
         return null;
